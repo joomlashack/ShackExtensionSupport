@@ -48,6 +48,16 @@
                     label="PLG_SYSTEM_OSMYLICENSESMANAGER_FIELD_LICENSE_KEYS_LABEL"
                     description="PLG_SYSTEM_OSMYLICENSESMANAGER_FIELD_LICENSE_KEYS_DESC"
                     />
+
+                <field
+                    name="release-channel"
+                    type="list"
+                    default="stable"
+                    label="PLG_SYSTEM_OSMYLICENSESMANAGER_FIELD_RELEASE_CHANNEL_LABEL"
+                    description="PLG_SYSTEM_OSMYLICENSESMANAGER_FIELD_RELEASE_CHANNEL_DESC">
+                    <option value="stable">PLG_SYSTEM_OSMYLICENSESMANAGER_FIELD_RELEASE_CHANNEL_STABLE</option>
+                    <option value="dev">PLG_SYSTEM_OSMYLICENSESMANAGER_FIELD_RELEASE_CHANNEL_DEV</option>
+                </field>
             </fieldset>
         </fields>
     </config>

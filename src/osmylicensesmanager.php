@@ -43,14 +43,12 @@ class PlgSystemOSMyLicensesManager extends AbstractPlugin
     public function onAfterRoute()
     {
         $app    = JFactory::getApplication();
-        $doc    = JFactory::getDocument();
         $option = $app->input->getCmd('option');
         $view   = $app->input->getCmd('view');
         $task = $app->input->getCmd('task');
 
         // Filter the request, to only trigger when the user is looking for an update
         if ($app->getName() != 'administrator'
-            || $doc->getType() !== 'html'
             || $option !== 'com_installer'
             || $view !== 'update'
             || $task !== 'update.find') {
@@ -59,5 +57,6 @@ class PlgSystemOSMyLicensesManager extends AbstractPlugin
         }
 
         OSMyLicensesManagerHelper::updateLicenseKeys($this->params->get('license-keys', ''));
+        OSMyLicensesManagerHelper::updateReleaseChannel($this->params->get('release-channel', 'stable'));
     }
 }

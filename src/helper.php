@@ -69,4 +69,42 @@ class OSMyLicensesManagerHelper
             }
         }
     }
+
+    /**
+     * Get all Alledia Pro extensions and update the
+     * release channel on the update url
+     *
+     * @param  string $channel
+     * @return void
+     */
+    public static function updateReleaseChannel($channel)
+    {
+        if (!empty($channel)) {
+            $allediaProExtensions = Helper::getAllediaExtensions('pro');
+
+            if (!empty($allediaProExtensions)) {
+                foreach ($allediaProExtensions as $extension) {
+                    $url = $extension->getUpdateURL();
+
+                    // Check if we already have the correct channel
+                    preg_match(
+                        '#^https://[a-z0-9\.]*:3425/joomla/update/pro/([^/]+)/.*#i',
+                        $url,
+                        $matches
+                    );
+
+                    if (isset($matches[1])) {
+                        if ($matches[1] === $channel) {
+                            // We don't need to update this url
+                            continue;
+                        } else {
+                            // Replace the current channel for the new one
+                            $url = str_replace('/' . $matches[1] . '/', '/' . $channel . '/', $url);
+                            $extension->setUpdateURL($url);
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
