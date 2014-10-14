@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5" type="plugin" group="system" method="upgrade">
-    <name>PLG_SYSTEM_OSMYLICENSESMANAGER</name>
+    <name>plg_system_osmylicensesmanager</name>
     <author>Alledia.com</author>
     <creationDate>October 13 2014</creationDate>
     <copyright>Copyright (C) 2014 Alledia.com</copyright>
@@ -17,6 +17,7 @@
         <folder>views</folder>
         <filename plugin="osmylicensesmanager">osmylicensesmanager.php</filename>
         <filename>include.php</filename>
+        <filename>helper.php</filename>
     </files>
 
     <alledia>
@@ -41,7 +42,12 @@
     <config>
         <fields name="params">
             <fieldset name="basic">
-
+                <field
+                    name="license-keys"
+                    type="textarea"
+                    label="PLG_SYSTEM_OSMYLICENSESMANAGER_FIELD_LICENSE_KEYS_LABEL"
+                    description="PLG_SYSTEM_OSMYLICENSESMANAGER_FIELD_LICENSE_KEYS_DESC"
+                    />
             </fieldset>
         </fields>
     </config>

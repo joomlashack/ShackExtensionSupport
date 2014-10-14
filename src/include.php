@@ -20,3 +20,7 @@ if (!defined('ALLEDIA_FRAMEWORK_LOADED')) {
 
     require_once $allediaFrameworkPath;
 }
+
+if (!defined('OSMyLicensesManagerHelper')) {
+    require_once 'helper.php';
+}
