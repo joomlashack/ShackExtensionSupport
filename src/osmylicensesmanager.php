@@ -34,9 +34,9 @@ class PlgSystemOSMyLicensesManager extends AbstractPlugin
     }
 
     /**
-     * This method detects when the plugin params where saved,
-     * look for all Alledia Pro extensions and try to inject the
-     * license keys on the update url
+     * This method detects when Joomla is looking for updates and
+     * find all Alledia Pro extensions trying to inject the
+     * license keys on the update url and change the release channel.
      *
      * @return void
      */
