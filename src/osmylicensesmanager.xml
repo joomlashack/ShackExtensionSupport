@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="system" method="upgrade">
+    <name>PLG_SYSTEM_OSMYLICENSESMANAGER</name>
+    <author>Alledia.com</author>
+    <creationDate>October 13 2014</creationDate>
+    <copyright>Copyright (C) 2014 Alledia.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <authorEmail>hello@alledia.com</authorEmail>
+    <authorUrl>https://www.alledia.com</authorUrl>
+    <version>1.0.0-dev</version>
+    <description>PLG_SYSTEM_OSMYLICENSESMANAGER_DESCRIPTION</description>
+
+    <scriptfile>script.installer.php</scriptfile>
+
+    <files>
+        <folder>language</folder>
+        <filename plugin="osmylicensesmanager">osmylicensesmanager.php</filename>
+        <filename>include.php</filename>
+    </files>
+
+    <alledia>
+        <element publish="true">osmylicensesmanager</element>
+
+        <namespace>OSMyLicensesManager</namespace>
+
+        <relatedExtensions>
+            <extension
+                type="library"
+                element="allediaframework">AllediaFramework</extension>
+
+            <extension
+                type="plugin"
+                group="system"
+                element="oscarootcertificates"
+                publish="true"
+                ordering="first">OSCARootCertificates</extension>
+        </relatedExtensions>
+    </alledia>
+
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+
+            </fieldset>
+        </fields>
+    </config>
+
+    <updateservers>
+        <server type="extension" priority="1" name="OSMyLicensesManager"><![CDATA[https://deploy.ostraining.com:3425/joomla/update/free/stable/plg_system_osmylicensesmanager]]></server>
+    </updateservers>
+</extension>

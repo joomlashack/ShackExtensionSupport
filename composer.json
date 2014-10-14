@@ -1,0 +1,28 @@
+{
+    "name"             : "alledia/osmylicensesmanager",
+    "description"      : "OSMyLicensesManager",
+    "minimum-stability": "stable",
+    "license"          : "GPL-2+",
+    "type"             : "joomla.plugin",
+    "extra"            : {
+        "element"        : "plg_system_osmylicensesmanager",
+        "element-short"  : "osmylicensesmanager",
+        "name"           : "OSMyLicensesManager",
+        "folder"         : "system",
+        "client"         : "site",
+        "package-license": "free"
+    },
+    "authors"          : [
+        {
+            "name" : "Alledia",
+            "email": "hello@alledia.com"
+        },
+        {
+            "name" : "Anderson Grüdtner Martins",
+            "email": "anderson@alledia.com"
+        }
+    ],
+    "require"          : {
+        "php"       : ">= 5.3"
+    }
+}
