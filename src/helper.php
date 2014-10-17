@@ -8,7 +8,7 @@
 
 defined('_JEXEC') or die();
 
-use Alledia\Helper;
+use Alledia\Framework\Helper;
 
 /**
  * Helper class
