@@ -63,6 +63,6 @@
     </config>
 
     <updateservers>
-        <server type="extension" priority="1" name="OSMyLicensesManager"><![CDATA[https://deploy.ostraining.com:3425/joomla/update/free/stable/plg_system_osmylicensesmanager]]></server>
+        <server type="extension" priority="1" name="OSMyLicensesManager"><![CDATA[https://deploy.ostraining.com/client/update/free/stable/plg_system_osmylicensesmanager]]></server>
     </updateservers>
 </extension>
