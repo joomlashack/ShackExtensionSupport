@@ -14,10 +14,10 @@
 
     <files>
         <folder>language</folder>
+        <folder>library</folder>
         <folder>views</folder>
         <filename plugin="osmylicensesmanager">osmylicensesmanager.php</filename>
         <filename>include.php</filename>
-        <filename>helper.php</filename>
     </files>
 
     <alledia>

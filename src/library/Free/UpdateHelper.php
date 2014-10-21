@@ -6,14 +6,14 @@
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
-defined('_JEXEC') or die();
+namespace Alledia\OSMyLicensesManager\Free;
 
-use Alledia\Framework\Helper;
+defined('_JEXEC') or die();
 
 /**
  * Helper class
  */
-class OSMyLicensesManagerHelper
+abstract class UpdateHelper
 {
     /**
      * Get all Alledia Pro extensions and update the
@@ -38,15 +38,14 @@ class OSMyLicensesManagerHelper
             // Convert the keys to a url param
             $keys = base64_encode(implode(',', $keys));
 
-            $allediaProExtensions = Helper::getAllediaExtensions('pro');
-
+            $allediaProExtensions = \Alledia\Framework\Helper::getAllediaExtensions('pro');
             if (!empty($allediaProExtensions)) {
                 foreach ($allediaProExtensions as $extension) {
                     $url = $extension->getUpdateURL();
 
                     // Check if we already have any key on the update urls
                     preg_match(
-                        '#^https://[a-z0-9\.]*:3425/joomla/update/pro/[^/]+/[^/]*(/([a-z0-9=\+/]*))#i',
+                        '#^http[s]?://[a-z0-9\.]*/client/update/pro/[^/]+/[^/]*(/([a-z0-9=\+/]*))#i',
                         $url,
                         $matches
                     );
@@ -80,7 +79,7 @@ class OSMyLicensesManagerHelper
     public static function updateReleaseChannel($channel)
     {
         if (!empty($channel)) {
-            $allediaProExtensions = Helper::getAllediaExtensions('pro');
+            $allediaProExtensions = \Alledia\Framework\Helper::getAllediaExtensions('pro');
 
             if (!empty($allediaProExtensions)) {
                 foreach ($allediaProExtensions as $extension) {

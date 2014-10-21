@@ -8,8 +8,6 @@
 
 defined('_JEXEC') or die();
 
-define('OSMYLICENSESMANAGER_PLUGIN_PATH', __DIR__);
-
 // Alledia Framework
 if (!defined('ALLEDIA_FRAMEWORK_LOADED')) {
     $allediaFrameworkPath = JPATH_SITE . '/libraries/allediaframework/include.php';
@@ -19,8 +17,4 @@ if (!defined('ALLEDIA_FRAMEWORK_LOADED')) {
     }
 
     require_once $allediaFrameworkPath;
-}
-
-if (!class_exists('OSMyLicensesManagerHelper')) {
-    require_once 'helper.php';
 }

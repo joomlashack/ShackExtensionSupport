@@ -4,4 +4,5 @@ symlinks:
     - src/osmylicensesmanager.xml: plugins/system/osmylicensesmanager/osmylicensesmanager.xml
     - src/osmylicensesmanager.php: plugins/system/osmylicensesmanager/osmylicensesmanager.php
     - src/include.php: plugins/system/osmylicensesmanager/include.php
+    - src/library: plugins/system/osmylicensesmanager/library
     - src/language: plugins/system/osmylicensesmanager/language

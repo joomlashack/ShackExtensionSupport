@@ -7,8 +7,7 @@
  */
 
 use Alledia\Framework\Joomla\Extension\AbstractPlugin;
-use Alledia\Framework\Joomla\Extension;
-use Alledia\Framework\Helper;
+use Alledia\OSMyLicensesManager\Free\UpdateHelper;
 
 defined('_JEXEC') or die();
 
@@ -56,7 +55,7 @@ class PlgSystemOSMyLicensesManager extends AbstractPlugin
             return;
         }
 
-        OSMyLicensesManagerHelper::updateLicenseKeys($this->params->get('license-keys', ''));
-        OSMyLicensesManagerHelper::updateReleaseChannel($this->params->get('release-channel', 'stable'));
+        UpdateHelper::updateLicenseKeys($this->params->get('license-keys', ''));
+        UpdateHelper::updateReleaseChannel($this->params->get('release-channel', 'stable'));
     }
 }
