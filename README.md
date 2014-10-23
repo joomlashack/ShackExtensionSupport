@@ -11,7 +11,7 @@ Joomla System Plugin for clients, to manage the Alledia License Keys, and authen
 
 ### License Keys
 
-There is a param to configure multiple license keys, which will be used to authenticate the update and download
+There is a param to configure a license key, which will be used to authenticate the update and download
 for Pro Extensions.
 
 ### Update Channel

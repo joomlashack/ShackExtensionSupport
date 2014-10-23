@@ -44,7 +44,7 @@
             <fieldset name="basic">
                 <field
                     name="license-keys"
-                    type="textarea"
+                    type="text"
                     label="PLG_SYSTEM_OSMYLICENSESMANAGER_FIELD_LICENSE_KEYS_LABEL"
                     description="PLG_SYSTEM_OSMYLICENSESMANAGER_FIELD_LICENSE_KEYS_DESC"
                     />
