@@ -13,7 +13,7 @@ if (!defined('ALLEDIA_FRAMEWORK_LOADED')) {
     $allediaFrameworkPath = JPATH_SITE . '/libraries/allediaframework/include.php';
 
     if (!file_exists($allediaFrameworkPath)) {
-        throw new Exception('Alledia framework not found');
+        throw new Exception('Alledia framework not found [OSMyLicensesManager]');
     }
 
     require_once $allediaFrameworkPath;
