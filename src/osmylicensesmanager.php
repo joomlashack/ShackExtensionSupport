@@ -55,6 +55,8 @@ class PlgSystemOSMyLicensesManager extends AbstractPlugin
             return;
         }
 
+        $this->init();
+
         $licenseKeys = $app->input->post->get('license-keys', '');
 
         $result = new stdClass;
@@ -90,6 +92,8 @@ class PlgSystemOSMyLicensesManager extends AbstractPlugin
 
             return;
         }
+
+        $this->init();
 
         UpdateHelper::updateLicenseKeys($this->params->get('license-keys', ''));
         UpdateHelper::updateReleaseChannel($this->params->get('release-channel', 'stable'));
