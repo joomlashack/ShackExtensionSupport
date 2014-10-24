@@ -23,10 +23,10 @@
             <extension
                 type="plugin"
                 group="system"
-                element="oscarootcertificates"
+                element="osystem"
                 publish="true"
                 ordering="first"
-                >OSCARootCertificates</extension>
+                >OSSystem</extension>
         </relatedExtensions>
     </alledia>
 
