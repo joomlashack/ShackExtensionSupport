@@ -40,6 +40,11 @@
         <filename>include.php</filename>
     </files>
 
+    <media destination="plg_system_osmylicensesmanager" folder="media">
+        <folder>css</folder>
+        <folder>js</folder>
+    </media>
+
     <config>
         <fields name="params">
             <fieldset name="basic">
