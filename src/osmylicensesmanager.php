@@ -14,88 +14,90 @@ defined('_JEXEC') or die();
 
 require_once 'include.php';
 
-/**
- * OSMyLicensesManager System Plugin
- *
- */
-class PlgSystemOSMyLicensesManager extends AbstractPlugin
-{
+if (defined('ALLEDIA_FRAMEWORK_LOADED')) {
     /**
-     * The constructor
+     * OSMyLicensesManager System Plugin
      *
-     * @param [type] $subject
-     * @param array  $config
      */
-    public function __construct(&$subject, $config = array())
+    class PlgSystemOSMyLicensesManager extends AbstractPlugin
     {
-        $this->namespace = 'OSMyLicensesManager';
+        /**
+         * The constructor
+         *
+         * @param [type] $subject
+         * @param array  $config
+         */
+        public function __construct(&$subject, $config = array())
+        {
+            $this->namespace = 'OSMyLicensesManager';
 
-        parent::__construct($subject, $config);
-    }
-
-    /**
-     * This method detects when a recent installed extension is
-     * trying to update the license key.
-     *
-     * @return void
-     */
-    public function onAfterInitialise()
-    {
-        $app    = JFactory::getApplication();
-        $plugin = $app->input->getCmd('plugin');
-        $task   = $app->input->getCmd('task');
-        $user   = JFactory::getUser();
-
-        // Filter the request, to only trigger when the user is looking for an update
-        if ($app->getName() !== 'administrator'
-            || $plugin !== 'system_osmylicensesmanager'
-            || $task !== 'license.save'
-            || $user->guest) {
-
-            return;
+            parent::__construct($subject, $config);
         }
 
-        $this->init();
+        /**
+         * This method detects when a recent installed extension is
+         * trying to update the license key.
+         *
+         * @return void
+         */
+        public function onAfterInitialise()
+        {
+            $app    = JFactory::getApplication();
+            $plugin = $app->input->getCmd('plugin');
+            $task   = $app->input->getCmd('task');
+            $user   = JFactory::getUser();
 
-        $licenseKeys = $app->input->post->get('license-keys', '');
+            // Filter the request, to only trigger when the user is looking for an update
+            if ($app->getName() !== 'administrator'
+                || $plugin !== 'system_osmylicensesmanager'
+                || $task !== 'license.save'
+                || $user->guest) {
 
-        $result = new stdClass;
-        $result->success = false;
-        if (PluginHelper::updateLicenseKeys($licenseKeys)) {
-            $result->success = true;
+                return;
+            }
+
+            $this->init();
+
+            $licenseKeys = $app->input->post->get('license-keys', '');
+
+            $result = new stdClass;
+            $result->success = false;
+            if (PluginHelper::updateLicenseKeys($licenseKeys)) {
+                $result->success = true;
+            }
+
+            echo json_encode($result);
+
+            jexit();
         }
 
-        echo json_encode($result);
+        /**
+         * This method detects when Joomla is looking for updates and
+         * find all Alledia Pro extensions trying to inject the
+         * license keys on the update url and change the release channel.
+         *
+         * @return void
+         */
+        public function onAfterRoute()
+        {
+            $app    = JFactory::getApplication();
+            $option = $app->input->getCmd('option');
+            $view   = $app->input->getCmd('view');
+            $task   = $app->input->getCmd('task');
 
-        jexit();
-    }
+            // Filter the request, to only trigger when the user is looking for an update
+            if ($app->getName() != 'administrator'
+                || $option !== 'com_installer'
+                || $view !== 'update'
+                || $task !== 'update.find') {
 
-    /**
-     * This method detects when Joomla is looking for updates and
-     * find all Alledia Pro extensions trying to inject the
-     * license keys on the update url and change the release channel.
-     *
-     * @return void
-     */
-    public function onAfterRoute()
-    {
-        $app    = JFactory::getApplication();
-        $option = $app->input->getCmd('option');
-        $view   = $app->input->getCmd('view');
-        $task   = $app->input->getCmd('task');
+                return;
+            }
 
-        // Filter the request, to only trigger when the user is looking for an update
-        if ($app->getName() != 'administrator'
-            || $option !== 'com_installer'
-            || $view !== 'update'
-            || $task !== 'update.find') {
+            $this->init();
 
-            return;
+            UpdateHelper::updateLicenseKeys($this->params->get('license-keys', ''));
+            UpdateHelper::updateReleaseChannel($this->params->get('release-channel', 'stable'));
         }
-
-        $this->init();
-
-        UpdateHelper::updateLicenseKeys($this->params->get('license-keys', ''));
-        UpdateHelper::updateReleaseChannel($this->params->get('release-channel', 'stable'));
     }
 }
