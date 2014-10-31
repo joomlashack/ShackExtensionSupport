@@ -2,12 +2,12 @@
 <extension version="2.5" type="plugin" group="system" method="upgrade">
     <name>plg_system_osmylicensesmanager</name>
     <author>Alledia.com</author>
-    <creationDate>October 13 2014</creationDate>
+    <creationDate>October 31 2014</creationDate>
     <copyright>Copyright (C) 2014 Alledia.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <authorEmail>hello@alledia.com</authorEmail>
     <authorUrl>https://www.alledia.com</authorUrl>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <description>PLG_SYSTEM_OSMYLICENSESMANAGER_DESCRIPTION</description>
 
     <alledia>
