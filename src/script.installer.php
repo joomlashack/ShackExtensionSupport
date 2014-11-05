@@ -6,11 +6,13 @@
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
-require_once 'library/installer/include.php';
-
-
 defined('_JEXEC') or die();
 
-class PlgSystemOSMyLicensesManagerInstallerScript extends AllediaInstallerAbstract
+require_once 'library/Installer/include.php';
+
+use Alledia\Installer\AbstractScript;
+
+
+class PlgSystemOSMyLicensesManagerInstallerScript extends AbstractScript
 {
 }
