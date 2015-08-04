@@ -25,18 +25,8 @@ abstract class UpdateHelper
     public static function updateLicenseKeys($keys = '')
     {
         if (!empty($keys)) {
-            // Get the license keys
-            $keys = explode("\n", $keys);
-
-            // Sanitize the key
-            if (!empty($keys)) {
-                foreach ($keys as &$key) {
-                    $key = trim(preg_replace('/[^a-z0-9]/i', '', $key));
-                }
-            }
-
-            // Convert the keys to a url param
-            $keys = base64_encode(implode(',', $keys));
+            // Get the license keys, converting to a url param
+            $keys = base64_encode(preg_replace('/[^a-z0-9,]/i', '', $keys));
 
             $allediaProExtensions = \Alledia\Framework\Helper::getAllediaExtensions('pro');
             if (!empty($allediaProExtensions)) {

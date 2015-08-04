@@ -58,7 +58,7 @@ if (defined('ALLEDIA_FRAMEWORK_LOADED')) {
 
             $this->init();
 
-            $licenseKeys = $app->input->post->get('license-keys', '');
+            $licenseKeys = $app->input->post->getString('license-keys', '');
 
             $result = new stdClass;
             $result->success = false;
