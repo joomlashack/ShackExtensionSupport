@@ -35,13 +35,13 @@ abstract class UpdateHelper
 
                     // Check if we already have any key on the update urls
                     preg_match(
-                        '#^http[s]?://[a-z0-9\.]*/client/update/pro/[^/]+/[^/]*(/([a-z0-9=\+/]*))#i',
+                        '#^http[s]?://[a-z0-9\.]*/client/update/pro/[^/]+/[^/]*/([a-z0-9=+]*)[/]?#i',
                         $url,
                         $matches
                     );
 
-                    if (isset($matches[2])) {
-                        if ($matches[2] === $keys) {
+                    if (isset($matches[1])) {
+                        if ($matches[1] === $keys) {
                             // We don't need to change this url
                             continue;
                         } else {
@@ -51,7 +51,10 @@ abstract class UpdateHelper
                     }
 
                     // Add the key on the udpate url
-                    $url .= '/' . $keys;
+                    if (!preg_match('#/$#i', $url)) {
+                        $url .= '/';
+                    }
+                    $url .= $keys;
 
                     $extension->setUpdateURL($url);
                 }
