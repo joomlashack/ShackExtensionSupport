@@ -35,7 +35,7 @@ abstract class UpdateHelper
 
                     // Check if we already have any key on the update urls
                     preg_match(
-                        '#^http[s]?://[a-z0-9\.]*/client/update/pro/[^/]+/[^/]*/([a-z0-9=+]*)[/]?#i',
+                        '#^http[s]?://[a-z0-9\.]*/client/update/pro/[^/]+/[^/]*/?([a-z0-9=+]*)[/]?#i',
                         $url,
                         $matches
                     );
