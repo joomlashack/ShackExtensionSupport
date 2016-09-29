@@ -108,4 +108,21 @@ class UpdateHelperTest extends \Codeception\Test\Unit
             $url
         );
     }
+
+    /**
+     * Test the method to strip the license key from a third party url, which
+     * should return the same url
+     */
+    public function testStripLicenseKeyFromThirdPartyURL()
+    {
+        // URL with license key
+        $url = 'https://update.joomla.org/core/extensions/com_joomlaupdate.xml';
+
+        $newUrl = UpdateHelper::getURLWithoutLicenseKey($url);
+
+        $this->assertEquals(
+            $newUrl,
+            $url
+        );
+    }
 }
