@@ -50,3 +50,5 @@ packages/*
 !packages/.gitkeep
 
 build.properties
+
+tests/_output/*
