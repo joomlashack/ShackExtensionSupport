@@ -70,6 +70,25 @@ abstract class UpdateHelper
     }
 
     /**
+     * Detects the license type based on the URL. If no license is detected,
+     * returns false
+     *
+     * @param string $url
+     *
+     * @return mixed
+     */
+    public static function getLicenseTypeFromURL($url)
+    {
+        preg_match('#^' . self::$updateBaseURL . '(free|pro)/#', $url, $matches);
+
+        if (isset($matches[1])) {
+            return $matches[1];
+        }
+
+        return false;
+    }
+
+    /**
      * Get all Alledia Pro extensions and update the
      * licence keys on the update url
      *

@@ -170,4 +170,27 @@ class UpdateHelperTest extends \Codeception\Test\Unit
             $newUrl
         );
     }
+
+    /**
+     * Get the license type from a valid URL. The method doesn't validate the
+     * URL.
+     */
+    public function testGettingLicenseTypeFromURL()
+    {
+        $urls = array(
+            'https://deploy.ostraining.com/client/update/pro/stable/com_dummy/'             => 'pro',
+            'https://deploy.ostraining.com/client/update/free/stable/com_dummy/'            => 'free',
+            'https://deploy.ostraining.com/client/update/invalid-license/stable/com_dummy/' => false
+        );
+
+        foreach ($urls as $url => $expectedLicense) {
+            $license = UpdateHelper::getLicenseTypeFromURL($url);
+
+            $this->assertEquals(
+                $expectedLicense,
+                $license,
+                "Tested with the url: {$url}"
+            );
+        }
+    }
 }
