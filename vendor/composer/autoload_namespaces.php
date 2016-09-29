@@ -7,9 +7,5 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Prophecy\\' => array($vendorDir . '/phpspec/prophecy/src'),
-    'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib'),
-    'Doctrine\\Common\\Annotations\\' => array($vendorDir . '/doctrine/annotations/lib'),
-    'Dissect' => array($vendorDir . '/jakubledl/dissect/src'),
     'Behat\\Gherkin' => array($vendorDir . '/behat/gherkin/src'),
-    'AspectMock' => array($vendorDir . '/codeception/aspect-mock/src'),
 );
