@@ -114,4 +114,60 @@ class UpdateHelperTest extends \Codeception\Test\Unit
             "The URL can't change if processing a 3rd party URL"
         );
     }
+
+    /**
+     * Test the method to append the license key to a 3rd party URL. The url
+     * needs to remain untouched.
+     */
+    public function testAppendingLicenseKeyToThirdPartyURL()
+    {
+        $url = 'https://update.joomla.org/core/extensions/com_joomlaupdate.xml';
+
+        $licenseKey = 'd41d8cd98f00b204e9800998ecf8427e';
+
+        $newUrl = UpdateHelper::appendLicenseKeyToURL($url, $licenseKey);
+
+        $this->assertEquals(
+            $newUrl,
+            $url,
+            "The URL can't change if processing a 3rd party URL"
+        );
+    }
+
+    /**
+     * Test the method to append one license key to a URL. The final URL needs
+     * to have a new segment encoded with base64.
+     */
+    public function testAppendingOneLicenseKeyToValidURL()
+    {
+        $url = 'https://deploy.ostraining.com/client/update/pro/stable/plg_content_oswistia/';
+
+        $licenseKey = 'd41d8cd98f00b204e9800998ecf8427e';
+
+        $newUrl = UpdateHelper::appendLicenseKeyToURL($url, $licenseKey);
+
+        $this->assertEquals(
+            $url . 'ZDQxZDhjZDk4ZjAwYjIwNGU5ODAwOTk4ZWNmODQyN2U=',
+            $newUrl
+        );
+    }
+
+    /**
+     * Test the method to append multiple license keys to a URL. The final URL
+     * needs to have a new segment encoded with base64. All spaces or invalid
+     * chars should be stripped from the license key.
+     */
+    public function testAppendingMultipleLicenseKeysToValidURL()
+    {
+        $url = 'https://deploy.ostraining.com/client/update/pro/stable/plg_content_oswistia/';
+
+        $licenseKey = 'd41d8cd98f00b204e9800998ecf8427e, 912ec803b2ce49e4a541068d495ab570 ';
+
+        $newUrl = UpdateHelper::appendLicenseKeyToURL($url, $licenseKey);
+
+        $this->assertEquals(
+            $url . 'ZDQxZDhjZDk4ZjAwYjIwNGU5ODAwOTk4ZWNmODQyN2UsOTEyZWM4MDNiMmNlNDllNGE1NDEwNjhkNDk1YWI1NzA=',
+            $newUrl
+        );
+    }
 }

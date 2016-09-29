@@ -50,6 +50,26 @@ abstract class UpdateHelper
     }
 
     /**
+     * Appends the license key to the URL and returns it.
+     *
+     * @param string $url
+     * @param string $keys
+     *
+     * @return string
+     */
+    public static function appendLicenseKeyToURL($url, $keys)
+    {
+        if (self::isOurUpdateURL($url)) {
+            $sanitizedKeys = preg_replace('/[^a-z0-9,]/i', '', $keys);
+            $encodedKeys   = base64_encode($sanitizedKeys);
+
+            $url .= $encodedKeys;
+        }
+
+        return $url;
+    }
+
+    /**
      * Get all Alledia Pro extensions and update the
      * licence keys on the update url
      *
