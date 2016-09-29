@@ -29,7 +29,24 @@ abstract class UpdateHelper
      */
     public static function isOurUpdateURL($url)
     {
-        return 1 === preg_match('#^' . static::$updateBaseURL . '#', $url);
+        return 1 === preg_match('#^' . self::$updateBaseURL . '#', $url);
+    }
+
+    /**
+     * Removes the license key from the URL and returns it.
+     *
+     * @param string $url
+     *
+     * @return string
+     */
+    public static function getURLWithoutLicenseKey($url)
+    {
+        if (self::isOurUpdateURL($url)) {
+            $url = preg_replace('#^(' . self::$updateBaseURL . '(free|pro)/[^/]+/[^/]+).*$#i', '$1', $url);
+            $url .= '/';
+        }
+
+        return $url;
     }
 
     /**

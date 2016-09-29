@@ -57,4 +57,55 @@ class UpdateHelperTest extends \Codeception\Test\Unit
             }
         }
     }
+
+    /**
+     * Test the method to strip the license key from the url.
+     */
+    public function testStripLicenseKeyFromURLWithLicenseKey()
+    {
+        // URL with license key
+        $url = 'https://deploy.ostraining.com/client/update/pro/stable/com_dummy/5aJ3cjda3YjZmbzkx8s93XcwZWM3NG02cGJoaH0pvLDUzYTMwNWVlZDk2NDwn864MzE1MzNkOTI3NmUwMmIyYzYyZWMyYz3=';
+
+        $newUrl = UpdateHelper::getURLWithoutLicenseKey($url);
+
+        $this->assertEquals(
+            $newUrl,
+            'https://deploy.ostraining.com/client/update/pro/stable/com_dummy/'
+        );
+    }
+
+    /**
+     * Test the method to strip the license key from an url which doesn't have
+     * a license key and trailing slash. It should be the same, but with a
+     * trailing slash.
+     */
+    public function testStripLicenseKeyFromURLWithoutLicenseKeyAndSlash()
+    {
+        // URL with license key
+        $url = 'https://deploy.ostraining.com/client/update/pro/stable/com_dummy';
+
+        $newUrl = UpdateHelper::getURLWithoutLicenseKey($url);
+
+        $this->assertEquals(
+            $newUrl,
+            'https://deploy.ostraining.com/client/update/pro/stable/com_dummy/'
+        );
+    }
+
+    /**
+     * Test the method to strip the license key from an url which doesn't have
+     * a license key and trailing slash. It should be the same.
+     */
+    public function testStripLicenseKeyFromURLWithoutLicenseKeyWithSlash()
+    {
+        // URL with license key
+        $url = 'https://deploy.ostraining.com/client/update/pro/stable/com_dummy/';
+
+        $newUrl = UpdateHelper::getURLWithoutLicenseKey($url);
+
+        $this->assertEquals(
+            $newUrl,
+            $url
+        );
+    }
 }
