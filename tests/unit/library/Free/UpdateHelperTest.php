@@ -140,7 +140,7 @@ class UpdateHelperTest extends \Codeception\Test\Unit
      */
     public function testAppendingOneLicenseKeyToValidURL()
     {
-        $url = 'https://deploy.ostraining.com/client/update/pro/stable/plg_content_oswistia/';
+        $url = 'https://deploy.ostraining.com/client/update/pro/stable/com_dummy/';
 
         $licenseKey = 'd41d8cd98f00b204e9800998ecf8427e';
 
@@ -159,7 +159,7 @@ class UpdateHelperTest extends \Codeception\Test\Unit
      */
     public function testAppendingMultipleLicenseKeysToValidURL()
     {
-        $url = 'https://deploy.ostraining.com/client/update/pro/stable/plg_content_oswistia/';
+        $url = 'https://deploy.ostraining.com/client/update/pro/stable/com_dummy/';
 
         $licenseKey = 'd41d8cd98f00b204e9800998ecf8427e, 912ec803b2ce49e4a541068d495ab570 ';
 
