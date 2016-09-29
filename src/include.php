@@ -6,6 +6,8 @@
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL
  */
 
+use Alledia\Framework\AutoLoader;
+
 defined('_JEXEC') or die();
 
 // Alledia Framework
@@ -18,4 +20,11 @@ if (!defined('ALLEDIA_FRAMEWORK_LOADED')) {
         JFactory::getApplication()
             ->enqueueMessage('[OSMyLicensesManager] Alledia framework not found', 'error');
     }
+}
+
+// Extension's library
+if (!defined('OSMYLICENSESMANAGER_LOADED')) {
+    AutoLoader::register('Alledia\\OSMyLicensesManager', SRC_PATH . '/library');
+
+    define('OSMYLICENSESMANAGER_LOADED', 1);
 }

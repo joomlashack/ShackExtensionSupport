@@ -35,7 +35,7 @@ if (defined('ALLEDIA_FRAMEWORK_LOADED')) {
         }
 
         /**
-         * This method detects when a recent installed extension is
+         * This method detects when a recently installed extension is
          * trying to update the license key.
          *
          * @return void
@@ -72,32 +72,26 @@ if (defined('ALLEDIA_FRAMEWORK_LOADED')) {
         }
 
         /**
-         * This method detects when Joomla is looking for updates and
-         * find all Alledia Pro extensions trying to inject the
-         * license keys on the update url and change the release channel.
+         * Handle update URL and headers
          *
-         * @return void
+         * @param string $url
+         * @param array  $headers
          */
-        public function onAfterRoute()
+        public function onInstallerBeforePackageDownload(&$url, &$headers)
         {
-            $app    = JFactory::getApplication();
-            $option = $app->input->getCmd('option');
-            $view   = $app->input->getCmd('view');
-            $task   = $app->input->getCmd('task');
-
-            // Filter the request, to only trigger when the user is looking for an update
-            if ($app->getName() != 'administrator'
-                || $option !== 'com_installer'
-                || $view !== 'update'
-                || $task !== 'update.find') {
-
-                return;
+            // Only operate on our urls
+            if (!UpdateHelper::isOurUpdateURL($url)) {
+                return true;
             }
 
             $this->init();
 
-            UpdateHelper::updateLicenseKeys($this->params->get('license-keys', ''));
-            UpdateHelper::updateReleaseChannel($this->params->get('release-channel', 'stable'));
+            // Removes license key from the URL
+
+            // UpdateHelper::updateLicenseKeys($this->params->get('license-keys', ''));
+            // UpdateHelper::updateReleaseChannel($this->params->get('release-channel', 'stable'));
+
+            return true;
         }
     }
 }

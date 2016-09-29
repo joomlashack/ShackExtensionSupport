@@ -12,6 +12,7 @@ settings:
     params:
         joomla_path: '/Users/user/Sites/joomla'
         http_host: 'localhost'
+        mysql_host: 'localhost:3306'
 extensions:
     enabled:
         - Codeception\Extension\RunFailed

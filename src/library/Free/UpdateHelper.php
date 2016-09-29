@@ -16,6 +16,23 @@ defined('_JEXEC') or die();
 abstract class UpdateHelper
 {
     /**
+     * @var string
+     */
+    protected static $updateBaseURL = 'https://deploy.ostraining.com/client/update/';
+
+    /**
+     * Detects if the passed URL is our update URL, returning a boolean value.
+     *
+     * @param string $url
+     *
+     * @return string
+     */
+    public static function isOurUpdateURL($url)
+    {
+        return 1 === preg_match('#^' . static::$updateBaseURL . '#', $url);
+    }
+
+    /**
      * Get all Alledia Pro extensions and update the
      * licence keys on the update url
      *

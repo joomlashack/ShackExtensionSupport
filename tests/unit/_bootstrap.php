@@ -19,6 +19,8 @@ define('_JEXEC', 1);
 if (!defined('JPATH_BASE')) {
     define('JPATH_BASE', realpath($pathToJoomla));
 }
+
+// Load a minimal Joomla framework
 require_once JPATH_BASE . '/includes/defines.php';
 
 require_once JPATH_BASE . '/includes/framework.php';
@@ -59,5 +61,5 @@ require_once JPATH_CONFIGURATION . '/configuration.php';
 // Instantiate some needed objects
 // JFactory::getApplication('site');
 
-// Alledia Framework
-require_once JPATH_BASE . '/libraries/allediaframework/include.php';
+// Extensions's library
+require_once SRC_PATH . '/include.php';
