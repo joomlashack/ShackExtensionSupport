@@ -55,7 +55,7 @@ class PlgSystemOSMyLicensesManagerTest extends \Codeception\Test\Unit
     /**
      * The plugin should ignore third part URLs
      */
-    public function testIgnoreThirdPartURLOnInstallerBeforePackageDownload()
+    public function testIgnoringThirdPartURLOnInstallerBeforePackageDownload()
     {
         $plugin = $this->getPluginInstance();
 
@@ -82,7 +82,7 @@ class PlgSystemOSMyLicensesManagerTest extends \Codeception\Test\Unit
     /**
      * The plugin should update our URLs adding the license key
      */
-    public function testAppendLicenseKeyOnInstallerBeforePackageDownload()
+    public function testAppendingLicenseKeyOnInstallerBeforePackageDownload()
     {
         // $plugin = $this->getPluginInstance();
 
