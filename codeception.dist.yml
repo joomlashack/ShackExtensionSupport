@@ -9,6 +9,9 @@ settings:
     bootstrap: _bootstrap.php
     colors: true
     memory_limit: 1024M
+    params:
+        joomla_path: '/Users/user/Sites/joomla'
+        http_host: 'localhost'
 extensions:
     enabled:
         - Codeception\Extension\RunFailed

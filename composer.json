@@ -22,6 +22,8 @@
         "php"       : ">= 5.3"
     },
     "require-dev": {
-        "codeception/codeception": "^2.2"
+        "codeception/codeception": "^2.2",
+        "codeception/aspect-mock": "^2.0",
+        "symfony/yaml": "^3.1"
     }
 }

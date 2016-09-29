@@ -52,3 +52,4 @@ packages/*
 build.properties
 
 tests/_output/*
+/codeception.yml
