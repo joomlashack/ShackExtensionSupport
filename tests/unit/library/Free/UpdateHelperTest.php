@@ -172,6 +172,36 @@ class UpdateHelperTest extends \Codeception\Test\Unit
     }
 
     /**
+     * Test the method to append license keys to a URL with there is no license
+     * key set. The final URL should be the same.
+     */
+    public function testAppendingBlankLicenseKeyToValidURL()
+    {
+        $url = 'https://deploy.ostraining.com/client/update/pro/stable/com_dummy/';
+
+        $licenseKey = '';
+
+        $newUrl = UpdateHelper::appendLicenseKeyToURL($url, $licenseKey);
+
+        $this->assertEquals($url, $newUrl);
+    }
+
+    /**
+     * Test the method to append license keys to a URL with there is no license
+     * key set. The final URL should be the same.
+     */
+    public function testAppendingInvalidCharsOnLicenseKeyToValidURL()
+    {
+        $url = 'https://deploy.ostraining.com/client/update/pro/stable/com_dummy/';
+
+        $licenseKey = '?==';
+
+        $newUrl = UpdateHelper::appendLicenseKeyToURL($url, $licenseKey);
+
+        $this->assertEquals($url, $newUrl);
+    }
+
+    /**
      * Get the license type from a valid URL. The method doesn't validate the
      * URL.
      */

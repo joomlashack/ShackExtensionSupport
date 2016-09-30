@@ -61,9 +61,11 @@ abstract class UpdateHelper
     {
         if (self::isOurUpdateURL($url)) {
             $sanitizedKeys = preg_replace('/[^a-z0-9,]/i', '', $keys);
-            $encodedKeys   = base64_encode($sanitizedKeys);
 
-            $url .= $encodedKeys;
+            if (!empty($keys)) {
+                $encodedKeys = base64_encode($sanitizedKeys);
+                $url .= $encodedKeys;
+            }
         }
 
         return $url;
