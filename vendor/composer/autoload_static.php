@@ -147,6 +147,10 @@ class ComposerStaticInit29b5402067029841250281b11053ba25
             array (
                 0 => __DIR__ . '/..' . '/phpspec/prophecy/src',
             ),
+            'Pimple' => 
+            array (
+                0 => __DIR__ . '/..' . '/pimple/pimple/src',
+            ),
         ),
         'B' => 
         array (
