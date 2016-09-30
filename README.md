@@ -5,7 +5,7 @@ OSMyLicensesManager
 
 ## About
 
-Joomla System Plugin for clients, to manage the Alledia License Keys, and authenticate updates for Pro extensions.
+Joomla System Plugin for clients, to manage the Joomlashack License Keys, and authenticate updates for Pro extensions.
 
 ## Features
 
