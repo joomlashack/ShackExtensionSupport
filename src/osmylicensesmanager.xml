@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5" type="plugin" group="system" method="upgrade">
     <name>plg_system_osmylicensesmanager</name>
-    <author>Alledia.com</author>
+    <author>Joomlashack.com</author>
     <creationDate>September 29 2016</creationDate>
-    <copyright>Copyright (C) 2015 Alledia.com</copyright>
+    <copyright>Copyright (C) 2015 Joomlashack.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <authorEmail>support@alledia.com</authorEmail>
-    <authorUrl>https://www.alledia.com</authorUrl>
+    <authorEmail>support@joomlashack.com</authorEmail>
+    <authorUrl>https://www.joomlashack.com</authorUrl>
     <version>1.1.6b1</version>
     <description>PLG_SYSTEM_OSMYLICENSESMANAGER_DESCRIPTION</description>
 
