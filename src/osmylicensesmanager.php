@@ -99,9 +99,6 @@ if (defined('ALLEDIA_FRAMEWORK_LOADED')) {
             $licenseKeys = $this->params->get('license-keys', '');
             $url = UpdateHelper::appendLicenseKeyToURL($url, $licenseKeys);
 
-
-            // UpdateHelper::updateReleaseChannel($this->params->get('release-channel', 'stable'));
-
             return true;
         }
     }

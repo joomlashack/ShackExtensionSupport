@@ -14,13 +14,6 @@ Joomla System Plugin for clients, to manage the Alledia License Keys, and authen
 There is a param to configure a license key, which will be used to authenticate the update and download
 for Pro Extensions.
 
-### Update Channel
-
-There is a param to choose the update channel. The available channels are:
-
-* Stable
-* Stable + Pre-Releases
-
 ## Requirements
 
 Joomla 2.5.x or 3.x

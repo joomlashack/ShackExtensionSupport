@@ -17,15 +17,13 @@ class PlgSystemOSMyLicensesManagerTest extends \Codeception\Test\Unit
      * @return PlgSystemOSMyLicensesManager
      */
     protected function getPluginInstance(
-        $licenseKeys = 'd41d8cd98f00b204e9800998ecf8427e',
-        $releaseChannel = 'stable'
+        $licenseKeys = 'd41d8cd98f00b204e9800998ecf8427e'
     ) {
         $dummyContext = new JEventDispatcher;
 
         $dummyParams = new JRegistry(
             array(
-                'license-keys'    => $licenseKeys,
-                'release-channel' => $releaseChannel
+                'license-keys'    => $licenseKeys
             )
         );
 
