@@ -18,18 +18,18 @@ abstract class UpdateHelper
     /**
      * @var string
      */
-    protected static $updateBaseURL = 'https://deploy.ostraining.com/client/update/';
+    protected static $downloadBaseURL = 'https://deploy.ostraining.com/client/download/';
 
     /**
-     * Detects if the passed URL is our update URL, returning a boolean value.
+     * Detects if the passed URL is our download URL, returning a boolean value.
      *
      * @param string $url
      *
      * @return string
      */
-    public static function isOurUpdateURL($url)
+    public static function isOurDownloadURL($url)
     {
-        return 1 === preg_match('#^' . self::$updateBaseURL . '#', $url);
+        return 1 === preg_match('#^' . self::$downloadBaseURL . '#', $url);
     }
 
     /**
@@ -41,8 +41,8 @@ abstract class UpdateHelper
      */
     public static function getURLWithoutLicenseKey($url)
     {
-        if (self::isOurUpdateURL($url)) {
-            $url = preg_replace('#^(' . self::$updateBaseURL . '(free|pro)/[^/]+/[^/]+).*$#i', '$1', $url);
+        if (self::isOurDownloadURL($url)) {
+            $url = preg_replace('#^(' . self::$downloadBaseURL . '(free|pro)/[^/]+/[^/]+).*$#i', '$1', $url);
             $url .= '/';
         }
 
@@ -71,7 +71,7 @@ abstract class UpdateHelper
      */
     public static function appendLicenseKeyToURL($url, $keys)
     {
-        if (self::isOurUpdateURL($url)) {
+        if (self::isOurDownloadURL($url)) {
             $sanitizedKeys = self::sanitizeKey($keys);
 
             if (!empty($keys)) {
@@ -93,7 +93,7 @@ abstract class UpdateHelper
      */
     public static function getLicenseTypeFromURL($url)
     {
-        preg_match('#^' . self::$updateBaseURL . '(free|pro)/#', $url, $matches);
+        preg_match('#^' . self::$downloadBaseURL . '(free|pro)/#', $url, $matches);
 
         if (isset($matches[1])) {
             return $matches[1];

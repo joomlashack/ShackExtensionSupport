@@ -46,7 +46,7 @@ if (defined('ALLEDIA_FRAMEWORK_LOADED')) {
             $task   = $app->input->getCmd('task');
             $user   = JFactory::getUser();
 
-            // Filter the request, to only trigger when the user is looking for an update
+            // Filter the request, to only trigger when the user tried to save a license key from the installer screen
             if ($app->getName() !== 'administrator'
                 || $plugin !== 'system_osmylicensesmanager'
                 || $task !== 'license.save'
@@ -71,8 +71,8 @@ if (defined('ALLEDIA_FRAMEWORK_LOADED')) {
         }
 
         /**
-         * Handle update URL and headers append the license keys to the url,
-         * if is a valid URL of pro extension.
+         * Handle download URL and headers append the license keys to the url,
+         * if it is a valid URL of Pro extension.
          *
          * @param string $url
          * @param array  $headers
@@ -81,7 +81,7 @@ if (defined('ALLEDIA_FRAMEWORK_LOADED')) {
         public function onInstallerBeforePackageDownload(&$url, &$headers)
         {
             // Only handle our urls
-            if (!UpdateHelper::isOurUpdateURL($url)) {
+            if (!UpdateHelper::isOurDownloadURL($url)) {
                 return true;
             }
 

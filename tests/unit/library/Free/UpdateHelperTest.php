@@ -14,38 +14,38 @@ class UpdateHelperTest extends \Codeception\Test\Unit
      * Set of urls to test. True if should be validated as our own URLs.
      * False if is invalid, third part URLs.
      */
-    protected $updateUrls = array(
-        // Invalid update URLs
+    protected $downloadUrls = array(
+        // Invalid download URLs
         'https://update.joomla.org/language/translationlist_3.xml'            => false,
         'https://update.joomla.org/core/list.xml'                             => false,
         'https://update.joomla.org/jed/list.xml'                              => false,
         'https://update.joomla.org/core/extensions/com_joomlaupdate.xml'      => false,
         'https://deploy.ostraining.com'                                       => false,
         'https://ostraining.com'                                              => false,
-        'https://deploy.ostraining.com/client/download/free/stable/com_dummy' => false,
-        'https://deploy.ostraining.com/client/download/pro/stable/com_dummy'  => false,
-        'https://deploy.ostraining.com/client/download/free/1.0.3/com_dummy'  => false,
-        // Valid update URLS
-        'https://deploy.ostraining.com/client/update/free/stable/com_dummy'   => true,
-        'https://deploy.ostraining.com/client/update/pro/stable/com_dummy'    => true,
-        'https://deploy.ostraining.com/client/update/free/1.0.3/com_dummy'    => true,
-        'https://deploy.ostraining.com/client/update/pro/1.0.3/com_dummy'     => true,
+        'https://deploy.ostraining.com/client/update/free/stable/com_dummy'   => false,
+        'https://deploy.ostraining.com/client/update/pro/stable/com_dummy'    => false,
+        'https://deploy.ostraining.com/client/update/free/1.0.3/com_dummy'    => false,
+        // Valid download URLS
+        'https://deploy.ostraining.com/client/download/free/stable/com_dummy'   => true,
+        'https://deploy.ostraining.com/client/download/pro/stable/com_dummy'    => true,
+        'https://deploy.ostraining.com/client/download/free/1.0.3/com_dummy'    => true,
+        'https://deploy.ostraining.com/client/download/pro/1.0.3/com_dummy'     => true,
     );
 
     /**
-     * Test detecting our own URLs
+     * Test detecting our own download URLs
      */
-    public function testCheckingTheUpdateUrlValidation()
+    public function testCheckingTheDownloadUrlValidation()
     {
         // Test the URLs set
-        foreach ($this->updateUrls as $url => $isOwers) {
+        foreach ($this->downloadUrls as $url => $isOwers) {
 
-            $result = UpdateHelper::isOurUpdateURL($url);
+            $result = UpdateHelper::isOurDownloadURL($url);
 
             if ($isOwers) {
-                $this->assertTrue($result, "{$url} should be a valid update URL");
+                $this->assertTrue($result, "{$url} should be a valid download URL");
             } else {
-                $this->assertFalse($result, "{$url} should be a invalid update URL");
+                $this->assertFalse($result, "{$url} should be a invalid download URL");
             }
         }
     }
@@ -55,12 +55,12 @@ class UpdateHelperTest extends \Codeception\Test\Unit
      */
     public function testStrippingLicenseKeyFromURLWithLicenseKey()
     {
-        $url = 'https://deploy.ostraining.com/client/update/pro/stable/com_dummy/5aJ3cjda3YjZmbzkx8s93XcwZWM3NG02cGJoaH0pvLDUzYTMwNWVlZDk2NDwn864MzE1MzNkOTI3NmUwMmIyYzYyZWMyYz3=';
+        $url = 'https://deploy.ostraining.com/client/download/pro/stable/com_dummy/5aJ3cjda3YjZmbzkx8s93XcwZWM3NG02cGJoaH0pvLDUzYTMwNWVlZDk2NDwn864MzE1MzNkOTI3NmUwMmIyYzYyZWMyYz3=';
 
         $newUrl = UpdateHelper::getURLWithoutLicenseKey($url);
 
         $this->assertEquals(
-            'https://deploy.ostraining.com/client/update/pro/stable/com_dummy/',
+            'https://deploy.ostraining.com/client/download/pro/stable/com_dummy/',
             $newUrl
         );
     }
@@ -72,12 +72,12 @@ class UpdateHelperTest extends \Codeception\Test\Unit
      */
     public function testStrippingLicenseKeyFromURLWithoutLicenseKeyAndSlash()
     {
-        $url = 'https://deploy.ostraining.com/client/update/pro/stable/com_dummy';
+        $url = 'https://deploy.ostraining.com/client/download/pro/stable/com_dummy';
 
         $newUrl = UpdateHelper::getURLWithoutLicenseKey($url);
 
         $this->assertEquals(
-            'https://deploy.ostraining.com/client/update/pro/stable/com_dummy/',
+            'https://deploy.ostraining.com/client/download/pro/stable/com_dummy/',
             $newUrl
         );
     }
@@ -88,7 +88,7 @@ class UpdateHelperTest extends \Codeception\Test\Unit
      */
     public function testStrippingLicenseKeyFromURLWithoutLicenseKeyWithSlash()
     {
-        $url = 'https://deploy.ostraining.com/client/update/pro/stable/com_dummy/';
+        $url = 'https://deploy.ostraining.com/client/download/pro/stable/com_dummy/';
 
         $newUrl = UpdateHelper::getURLWithoutLicenseKey($url);
 
@@ -136,11 +136,11 @@ class UpdateHelperTest extends \Codeception\Test\Unit
 
     /**
      * Test the method to append one license key to a URL. The final URL needs
-     * to have a new segment encoded with base64.
+     * to have a new segment encoded as base64.
      */
     public function testAppendingOneLicenseKeyToValidURL()
     {
-        $url = 'https://deploy.ostraining.com/client/update/pro/stable/com_dummy/';
+        $url = 'https://deploy.ostraining.com/client/download/pro/stable/com_dummy/';
 
         $licenseKey = 'd41d8cd98f00b204e9800998ecf8427e';
 
@@ -154,12 +154,12 @@ class UpdateHelperTest extends \Codeception\Test\Unit
 
     /**
      * Test the method to append multiple license keys to a URL. The final URL
-     * needs to have a new segment encoded with base64. All spaces or invalid
+     * needs to have a new segment encoded as base64. All spaces or invalid
      * chars should be stripped from the license key.
      */
     public function testAppendingMultipleLicenseKeysToValidURL()
     {
-        $url = 'https://deploy.ostraining.com/client/update/pro/stable/com_dummy/';
+        $url = 'https://deploy.ostraining.com/client/download/pro/stable/com_dummy/';
 
         $licenseKey = 'd41d8cd98f00b204e9800998ecf8427e, 912ec803b2ce49e4a541068d495ab570 ';
 
@@ -177,7 +177,7 @@ class UpdateHelperTest extends \Codeception\Test\Unit
      */
     public function testAppendingBlankLicenseKeyToValidURL()
     {
-        $url = 'https://deploy.ostraining.com/client/update/pro/stable/com_dummy/';
+        $url = 'https://deploy.ostraining.com/client/download/pro/stable/com_dummy/';
 
         $licenseKey = '';
 
@@ -192,7 +192,7 @@ class UpdateHelperTest extends \Codeception\Test\Unit
      */
     public function testAppendingInvalidCharsOnLicenseKeyToValidURL()
     {
-        $url = 'https://deploy.ostraining.com/client/update/pro/stable/com_dummy/';
+        $url = 'https://deploy.ostraining.com/client/download/pro/stable/com_dummy/';
 
         $licenseKey = '?==';
 
@@ -208,9 +208,9 @@ class UpdateHelperTest extends \Codeception\Test\Unit
     public function testGettingLicenseTypeFromURL()
     {
         $urls = array(
-            'https://deploy.ostraining.com/client/update/pro/stable/com_dummy/'             => 'pro',
-            'https://deploy.ostraining.com/client/update/free/stable/com_dummy/'            => 'free',
-            'https://deploy.ostraining.com/client/update/invalid-license/stable/com_dummy/' => false
+            'https://deploy.ostraining.com/client/download/pro/stable/com_dummy/'             => 'pro',
+            'https://deploy.ostraining.com/client/download/free/stable/com_dummy/'            => 'free',
+            'https://deploy.ostraining.com/client/download/invalid-license/stable/com_dummy/' => false
         );
 
         foreach ($urls as $url => $expectedLicense) {
