@@ -1,6 +1,7 @@
 <?php
 use \Codeception\Configuration;
 use \Codeception\Util\Stub;
+use \Alledia\OSMyLicensesManager\Free\UpdateHelper;
 
 require_once SRC_PATH . '/osmylicensesmanager.php';
 
@@ -115,5 +116,35 @@ class PlgSystemOSMyLicensesManagerTest extends \Codeception\Test\Unit
         $plugin->onInstallerBeforePackageDownload($url, $headers);
 
         $this->assertEquals($expected, $url);
+    }
+
+    /**
+     * We need to check if it correctly detects the JCal Pro download Url and
+     * force the default licence key for it.
+     */
+    public function testForcingLicenseKeyForJcalProDownloadUrl()
+    {
+        $licenseKey = 'd41d8cd98f00b204e9800998ecf8427e';
+
+        $urls = array(
+            // User's license key
+            'https://deploy.ostraining.com/client/download/pro/stable/com_dummy' => 'https://deploy.ostraining.com/client/download/pro/stable/com_dummy/' . base64_encode($licenseKey),
+            // Default license key
+            'https://deploy.ostraining.com/client/download/pro/stable/com_jcalpro'   => 'https://deploy.ostraining.com/client/download/pro/stable/com_jcalpro/' . base64_encode(UpdateHelper::DEFAULT_LICENSE_KEY),
+            'https://deploy.ostraining.com/client/download/pro/unstable/com_jcalpro' => 'https://deploy.ostraining.com/client/download/pro/unstable/com_jcalpro/' . base64_encode(UpdateHelper::DEFAULT_LICENSE_KEY)
+        );
+
+        $headers = array();
+        $plugin  = $this->getPluginInstance($licenseKey);
+
+        foreach ($urls as $url => $expected) {
+            $plugin->onInstallerBeforePackageDownload($url, $headers);
+
+            $this->assertEquals(
+                $expected,
+                $url,
+                "Testing URL: {$url}"
+            );
+        }
     }
 }

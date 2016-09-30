@@ -245,4 +245,61 @@ class UpdateHelperTest extends \Codeception\Test\Unit
             $this->assertEquals($expected, $sanitizedKey);
         }
     }
+
+    /**
+     * We need to check if it correctly detects the JCal Pro download Url.
+     */
+    public function testDetectingJcalProDownloadUrl()
+    {
+        $urls = array(
+            // Invalid
+            'https://deploy.ostraining.com/client/download/free/stable/com_dummy'    => false,
+            'https://deploy.ostraining.com/client/download/pro/stable/com_dummy'     => false,
+            'https://deploy.ostraining.com/client/download/free/stable/com_jcalpro'  => false,
+            // Valid
+            'https://deploy.ostraining.com/client/download/pro/stable/com_jcalpro'   => true,
+            'https://deploy.ostraining.com/client/download/pro/unstable/com_jcalpro' => true
+        );
+
+        foreach ($urls as $url => $expected) {
+            $result = UpdateHelper::isJCalProDownloadUrl($url);
+
+            $this->assertEquals(
+                $expected,
+                $result,
+                "Testing URL: {$url}"
+            );
+
+            $this->assertInternalType(
+                'boolean',
+                $result,
+                "It should always return a boolean value for the URL: {$url}"
+            );
+        }
+    }
+
+    /**
+     * Test the method to append one license key to a JCal Pro Url. The final
+     * URL needs to have the default key, instead of the client's key.
+     */
+    public function testAppendingOneLicenseKeyToJcalProURL()
+    {
+        $urls = array(
+            'https://deploy.ostraining.com/client/download/pro/stable/com_jcalpro/',
+            'https://deploy.ostraining.com/client/download/pro/stable/pkg_jcalpro/'
+        );
+
+        // User's license key
+        $licenseKey = 'd41d8cd98f00b204e9800998ecf8427e';
+
+        foreach ($urls as $url) {
+            $newUrl = UpdateHelper::appendLicenseKeyToURL($url, $licenseKey);
+
+            $this->assertEquals(
+                $url . base64_encode(UpdateHelper::DEFAULT_LICENSE_KEY),
+                $newUrl,
+                "Testing URL: {$url}. It should have the default license key"
+            );
+        }
+    }
 }

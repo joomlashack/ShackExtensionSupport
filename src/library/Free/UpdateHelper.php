@@ -15,6 +15,8 @@ defined('_JEXEC') or die();
  */
 abstract class UpdateHelper
 {
+    const DEFAULT_LICENSE_KEY = '5a6f1dc7e58c04590b3f83b5f61f1aa4270772da';
+
     /**
      * @var string
      */
@@ -62,7 +64,9 @@ abstract class UpdateHelper
     }
 
     /**
-     * Appends the license key to the URL and returns it.
+     * Appends the license key to the URL and returns it. Temporarily, if we
+     * detect the url is for JCal Pro, we use a default license key to allow
+     * old customers to download updates.
      *
      * @param string $url
      * @param string $keys
@@ -72,7 +76,12 @@ abstract class UpdateHelper
     public static function appendLicenseKeyToURL($url, $keys)
     {
         if (self::isOurDownloadURL($url)) {
-            $sanitizedKeys = self::sanitizeKey($keys);
+            // Temporary fix for the JCal Pro update
+            if (self::isJCalProDownloadUrl($url)) {
+                $sanitizedKeys = self::DEFAULT_LICENSE_KEY;
+            } else {
+                $sanitizedKeys = self::sanitizeKey($keys);
+            }
 
             if (!empty($keys)) {
                 $encodedKeys = base64_encode($sanitizedKeys);
@@ -81,6 +90,21 @@ abstract class UpdateHelper
         }
 
         return $url;
+    }
+
+    /**
+     * Detects if it is a JCal Pro download URL. This method is temporarily need
+     * to allow all older users download the updates.
+     *
+     * @param string $url
+     * @return bool
+     */
+    public static function isJCalProDownloadUrl($url)
+    {
+        return (bool)preg_match(
+            '#^https://deploy.ostraining.com/client/download/pro/[^/]+/(com|pkg)_jcalpro/?#',
+            $url
+        );
     }
 
     /**
