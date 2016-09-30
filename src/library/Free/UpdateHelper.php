@@ -50,6 +50,18 @@ abstract class UpdateHelper
     }
 
     /**
+     * Sanitizes the license key, making sure we have only valid chars.
+     *
+     * @var string $key
+     *
+     * @return string
+     */
+    public static function sanitizeKey($key)
+    {
+        return preg_replace('/[^a-z0-9,]/i', '', $key);
+    }
+
+    /**
      * Appends the license key to the URL and returns it.
      *
      * @param string $url
@@ -60,7 +72,7 @@ abstract class UpdateHelper
     public static function appendLicenseKeyToURL($url, $keys)
     {
         if (self::isOurUpdateURL($url)) {
-            $sanitizedKeys = preg_replace('/[^a-z0-9,]/i', '', $keys);
+            $sanitizedKeys = self::sanitizeKey($keys);
 
             if (!empty($keys)) {
                 $encodedKeys = base64_encode($sanitizedKeys);

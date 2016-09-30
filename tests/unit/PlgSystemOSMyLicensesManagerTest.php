@@ -16,16 +16,26 @@ class PlgSystemOSMyLicensesManagerTest extends \Codeception\Test\Unit
      *
      * @return PlgSystemOSMyLicensesManager
      */
-    protected function getPluginInstance()
-    {
-        $context = new JEventDispatcher;
+    protected function getPluginInstance(
+        $licenseKeys = 'd41d8cd98f00b204e9800998ecf8427e',
+        $releaseChannel = 'stable'
+    ) {
+        $dummyContext = new JEventDispatcher;
+
+        $dummyParams = new JRegistry(
+            array(
+                'license-keys'    => $licenseKeys,
+                'release-channel' => $releaseChannel
+            )
+        );
 
         return Stub::construct(
             'PlgSystemOSMyLicensesManager',
-            array(&$context),
+            array(&$dummyContext),
             array(
                 // Overrides the init method
-                'init' => true
+                'init'   => true,
+                'params' => $dummyParams
             )
         );
     }
@@ -77,31 +87,35 @@ class PlgSystemOSMyLicensesManagerTest extends \Codeception\Test\Unit
     }
 
     /**
-     * The plugin should update our URLs adding the license key
+     * Test if we handle only URLs for Pro extensions. Check the license filter
+     * on the event onInstallerBeforePackageDownload.
      */
-    public function testAppendingLicenseKeyOnInstallerBeforePackageDownload()
+    public function testFilteringFreeLicenseOnInstallerBeforePackageDownload()
     {
-        // $plugin = $this->getPluginInstance();
+        $url         = 'https://deploy.ostraining.com/client/update/free/stable/com_dummy/';
+        $originalURL = $url;
+        $headers     = array();
 
-        // $headers = array();
+        $plugin = $this->getPluginInstance();
+        $plugin->onInstallerBeforePackageDownload($url, $headers);
 
-        // // Test the URLs set
-        // foreach ($this->updateUrls as $url => $isOwers) {
-        //     // We copy to have the original URL, since it can be updated by the method
-        //     $originalURL = $url;
+        $this->assertEquals($originalURL, $url);
+    }
 
-        //     $result = $plugin->onInstallerBeforePackageDownload($url, $headers);
+    /**
+     * Test updating the package download url with the license key for a pro
+     * extension.
+     */
+    public function testUpdatingUrlWithLicenseKeyForPro()
+    {
+        $url         = 'https://deploy.ostraining.com/client/update/pro/stable/com_dummy';
+        $licenseKey  = 'd41d8cd98f00b204e9800998ecf8427e';
+        $expected    = $url . '/' . base64_encode($licenseKey);
+        $headers     = array();
 
-        //     if ($isOwers) {
-        //         // The URL should be updated by the method but we only test here if it returns true
-        //         $this->assertTrue($result, "The plugin should return true for the URL {$originalURL}");
-        //         // Check if the url has the license key
+        $plugin = $this->getPluginInstance($licenseKey);
+        $plugin->onInstallerBeforePackageDownload($url, $headers);
 
-        //     } else {
-        //         $this->assertTrue($result, "The plugin should return true for the URL {$originalURL}");
-        //         // Check if the URL was changed by the method. It shouldn't
-        //         $this->assertEquals($originalURL, $url, "The URL {$originalURL} shouldn't be updated to {$url}");
-        //     }
-        // }
+        $this->assertEquals($expected, $url);
     }
 }

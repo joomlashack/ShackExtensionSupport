@@ -223,4 +223,26 @@ class UpdateHelperTest extends \Codeception\Test\Unit
             );
         }
     }
+
+    /**
+     * Tests the method which sanitizes a license key, removing invalid chars.
+     */
+    public function testSanitizingLicenseKey()
+    {
+        $keys = array(
+            'e8a88bb6f4d420a8517965d25cd54a14'                                      => 'e8a88bb6f4d420a8517965d25cd54a14',
+            'e8a88bb 6f4d420a8517965d25cd54a14 '                                    => 'e8a88bb6f4d420a8517965d25cd54a14',
+            'e8a88bb6f4d420a8517965d25cd54a14,306fce8f3c4f74085a92081326713628'     => 'e8a88bb6f4d420a8517965d25cd54a14,306fce8f3c4f74085a92081326713628',
+            ' e8a88bb6f4d420a8517965d25cd54a14 ,  306fce8f3c4f74085a92081326713628' => 'e8a88bb6f4d420a8517965d25cd54a14,306fce8f3c4f74085a92081326713628',
+            '98-9238732723hshdhfs988?test=1233'                                     => '989238732723hshdhfs988test1233',
+            '&ˆ%ˆ%$##@@@#$%ˆ&*())(*&ˆ%$#@#$%ˆ&*'                                    => '',
+            'test@example.com'                                                      => 'testexamplecom'
+        );
+
+        foreach ($keys as $key => $expected) {
+            $sanitizedKey = UpdateHelper::sanitizeKey($key);
+
+            $this->assertEquals($expected, $sanitizedKey);
+        }
+    }
 }

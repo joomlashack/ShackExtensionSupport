@@ -26,7 +26,7 @@ abstract class PluginHelper
     public static function updateLicenseKeys($licenseKeys = '')
     {
         // Sanitize
-        $licenseKeys = preg_replace('/[^a-z0-9,]/i', '', $licenseKeys);
+        $licenseKeys = UpdateHelper::sanitizeKey($licenseKeys);
 
         // Update the extension params
         $extension = new Extension('osmylicensesmanager', 'plugin', 'system');

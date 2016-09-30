@@ -17,7 +17,6 @@ require_once 'include.php';
 if (defined('ALLEDIA_FRAMEWORK_LOADED')) {
     /**
      * OSMyLicensesManager System Plugin
-     *
      */
     class PlgSystemOSMyLicensesManager extends AbstractPlugin
     {
@@ -72,23 +71,35 @@ if (defined('ALLEDIA_FRAMEWORK_LOADED')) {
         }
 
         /**
-         * Handle update URL and headers
+         * Handle update URL and headers append the license keys to the url,
+         * if is a valid URL of pro extension.
          *
          * @param string $url
          * @param array  $headers
+         * @return bool
          */
         public function onInstallerBeforePackageDownload(&$url, &$headers)
         {
-            // Only operate on our urls
+            // Only handle our urls
             if (!UpdateHelper::isOurUpdateURL($url)) {
+                return true;
+            }
+
+            // Check if it is not a free extension
+            if ('free' === UpdateHelper::getLicenseTypeFromURL($url)) {
                 return true;
             }
 
             $this->init();
 
-            // Removes license key from the URL
+            // Removes any license key from the URL
+            $url = UpdateHelper::getURLWithoutLicenseKey($url);
 
-            // UpdateHelper::updateLicenseKeys($this->params->get('license-keys', ''));
+            // Appends the license keys to the URL
+            $licenseKeys = $this->params->get('license-keys', '');
+            $url = UpdateHelper::appendLicenseKeyToURL($url, $licenseKeys);
+
+
             // UpdateHelper::updateReleaseChannel($this->params->get('release-channel', 'stable'));
 
             return true;
