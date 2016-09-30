@@ -62,4 +62,6 @@ require_once JPATH_CONFIGURATION . '/configuration.php';
 // JFactory::getApplication('site');
 
 // Extensions's library
+define('OSMYLICENSESMANAGER_LOADED', 1);
 require_once SRC_PATH . '/include.php';
+Alledia\Framework\AutoLoader::register('Alledia\\OSMyLicensesManager', SRC_PATH . '/library');
