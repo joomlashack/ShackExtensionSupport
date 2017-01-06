@@ -14,7 +14,7 @@ defined('_JEXEC') or die();
 
 require_once 'include.php';
 
-if (defined('ALLEDIA_FRAMEWORK_LOADED')) {
+if (defined('OSMYLICENSESMANAGER_LOADED')) {
     /**
      * OSMyLicensesManager System Plugin
      */
