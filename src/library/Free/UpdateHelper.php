@@ -77,7 +77,7 @@ abstract class UpdateHelper
     {
         if (self::isOurDownloadURL($url)) {
             // Temporary fix for the JCal Pro update
-            if (self::isJCalProDownloadUrl($url)) {
+            if (self::isGenericKeyDownload($url)) {
                 $sanitizedKeys = self::DEFAULT_LICENSE_KEY;
             } else {
                 $sanitizedKeys = self::sanitizeKey($keys);
@@ -93,16 +93,16 @@ abstract class UpdateHelper
     }
 
     /**
-     * Detects if it is a JCal Pro download URL. This method is temporarily need
-     * to allow all older users download the updates.
+     * Detects if it is a recognized generic pro license download URL. This method can be
+     * updated as needed whenever we release under a generic license key
      *
      * @param string $url
      * @return bool
      */
-    public static function isJCalProDownloadUrl($url)
+    public static function isGenericKeyDownload($url)
     {
         return (bool)preg_match(
-            '#^https://deploy.ostraining.com/client/download/pro/[^/]+/(com|pkg)_jcalpro/?#',
+            '#^https://deploy.ostraining.com/client/download/pro/[^/]+/(com|pkg)_(jcalpro|oscampus)/?#',
             $url
         );
     }

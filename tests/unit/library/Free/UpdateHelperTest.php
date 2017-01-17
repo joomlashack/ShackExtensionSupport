@@ -253,16 +253,18 @@ class UpdateHelperTest extends \Codeception\Test\Unit
     {
         $urls = array(
             // Invalid
-            'https://deploy.ostraining.com/client/download/free/stable/com_dummy'    => false,
-            'https://deploy.ostraining.com/client/download/pro/stable/com_dummy'     => false,
-            'https://deploy.ostraining.com/client/download/free/stable/com_jcalpro'  => false,
+            'https://deploy.ostraining.com/client/download/free/stable/com_dummy'     => false,
+            'https://deploy.ostraining.com/client/download/pro/stable/com_dummy'      => false,
+            'https://deploy.ostraining.com/client/download/free/stable/com_jcalpro'   => false,
             // Valid
-            'https://deploy.ostraining.com/client/download/pro/stable/com_jcalpro'   => true,
-            'https://deploy.ostraining.com/client/download/pro/unstable/com_jcalpro' => true
+            'https://deploy.ostraining.com/client/download/pro/stable/com_jcalpro'    => true,
+            'https://deploy.ostraining.com/client/download/pro/unstable/com_jcalpro'  => true,
+            'https://deploy.ostraining.com/client/download/pro/stable/com_oscampus'   => true,
+            'https://deploy.ostraining.com/client/download/pro/unstable/com_oscampus' => true
         );
 
         foreach ($urls as $url => $expected) {
-            $result = UpdateHelper::isJCalProDownloadUrl($url);
+            $result = UpdateHelper::isGenericKeyDownload($url);
 
             $this->assertEquals(
                 $expected,
