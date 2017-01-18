@@ -92,9 +92,6 @@ if (defined('OSMYLICENSESMANAGER_LOADED')) {
 
             $this->init();
 
-            // Removes any license key from the URL
-            $url = UpdateHelper::getURLWithoutLicenseKey($url);
-
             // Appends the license keys to the URL
             $licenseKeys = $this->params->get('license-keys', '');
             $url = UpdateHelper::appendLicenseKeyToURL($url, $licenseKeys);

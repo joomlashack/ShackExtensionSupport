@@ -76,10 +76,14 @@ abstract class UpdateHelper
     public static function appendLicenseKeyToURL($url, $keys)
     {
         if (self::isOurDownloadURL($url)) {
-            // Temporary fix for the JCal Pro update
+            // Handle possible generic key extensions
             if (self::isGenericKeyDownload($url)) {
-                $sanitizedKeys = self::DEFAULT_LICENSE_KEY;
+                $keys = $sanitizedKeys = self::DEFAULT_LICENSE_KEY;
+
             } else {
+                // Removes any license key from the URL
+                $url = UpdateHelper::getURLWithoutLicenseKey($url);
+
                 $sanitizedKeys = self::sanitizeKey($keys);
             }
 
