@@ -64,9 +64,9 @@ abstract class UpdateHelper
     }
 
     /**
-     * Appends the license key to the URL and returns it. Temporarily, if we
-     * detect the url is for JCal Pro, we use a default license key to allow
-     * old customers to download updates.
+     * Appends the license key to the URL and returns it. We recognize the url
+     * for designated generic extensions using a default license key to allow
+     * legacy customers to download updates.
      *
      * @param string $url
      * @param string $keys
@@ -98,15 +98,16 @@ abstract class UpdateHelper
 
     /**
      * Detects if it is a recognized generic pro license download URL. This method can be
-     * updated as needed whenever we release under a generic license key
+     * updated as needed whenever we a generic license key. For example, legacy extensions
      *
      * @param string $url
+     *
      * @return bool
      */
     public static function isGenericKeyDownload($url)
     {
         return (bool)preg_match(
-            '#^https://deploy.ostraining.com/client/download/pro/[^/]+/(com|pkg)_(jcalpro|oscampus)/?#',
+            '#^https://deploy.ostraining.com/client/download/pro/[^/]+/(com|pkg)_jcalpro/?#',
             $url
         );
     }
