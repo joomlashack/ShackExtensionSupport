@@ -18,7 +18,7 @@ if (!defined('ALLEDIA_FRAMEWORK_LOADED')) {
         require_once $allediaFrameworkPath;
     } else {
         JFactory::getApplication()
-            ->enqueueMessage('[OSMyLicensesManager] Alledia framework not found', 'error');
+            ->enqueueMessage('[Joomlashack License Key Manager] Joomlashack Framework not found', 'error');
     }
 }
 
