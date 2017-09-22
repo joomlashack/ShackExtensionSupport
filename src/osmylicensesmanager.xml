@@ -13,6 +13,7 @@
     <alledia>
         <element publish="true">osmylicensesmanager</element>
         <namespace>OSMyLicensesManager</namespace>
+        <name>Joomlashack License Key Manager</name>
         <license>free</license>
         <relatedExtensions>
             <extension
