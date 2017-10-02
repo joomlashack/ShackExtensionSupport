@@ -2,7 +2,7 @@
 <extension version="2.5" type="plugin" group="system" method="upgrade">
     <name>plg_system_osmylicensesmanager</name>
     <author>Joomlashack.com</author>
-    <creationDate>September 21 2017</creationDate>
+    <creationDate>October 02 2017</creationDate>
     <copyright>Copyright (C) 2016 Joomlashack.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <authorEmail>help@joomlashack.com</authorEmail>
