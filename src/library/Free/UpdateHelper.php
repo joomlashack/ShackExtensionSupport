@@ -106,10 +106,7 @@ abstract class UpdateHelper
      */
     public static function isGenericKeyDownload($url)
     {
-        return (bool)preg_match(
-            '#^https://deploy.ostraining.com/client/download/pro/[^/]+/(com|pkg)_jcalpro/?#',
-            $url
-        );
+        return false;
     }
 
     /**
