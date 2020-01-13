@@ -9,6 +9,7 @@
 use Alledia\Framework\Joomla\Extension\AbstractPlugin;
 use Alledia\OSMyLicensesManager\Free\UpdateHelper;
 use Alledia\OSMyLicensesManager\Free\PluginHelper;
+use Joomla\Event\Dispatcher;
 
 defined('_JEXEC') or die();
 
@@ -23,8 +24,8 @@ if (defined('OSMYLICENSESMANAGER_LOADED')) {
         /**
          * The constructor
          *
-         * @param [type] $subject
-         * @param array  $config
+         * @param Dispatcher $subject
+         * @param array      $config
          */
         public function __construct(&$subject, $config = array())
         {
@@ -38,6 +39,7 @@ if (defined('OSMYLICENSESMANAGER_LOADED')) {
          * trying to update the license key.
          *
          * @return void
+         * @throws Exception
          */
         public function onAfterInitialise()
         {
@@ -47,7 +49,7 @@ if (defined('OSMYLICENSESMANAGER_LOADED')) {
             $user   = JFactory::getUser();
 
             // Filter the request, to only trigger when the user tried to save a license key from the installer screen
-            if ($app->getName() !== 'administrator'
+            if (!$app->isClient('administrator')
                 || $plugin !== 'system_osmylicensesmanager'
                 || $task !== 'license.save'
                 || $user->guest) {
@@ -59,7 +61,7 @@ if (defined('OSMYLICENSESMANAGER_LOADED')) {
 
             $licenseKeys = $app->input->post->getString('license-keys', '');
 
-            $result = new stdClass;
+            $result          = new stdClass;
             $result->success = false;
             if (PluginHelper::updateLicenseKeys($licenseKeys)) {
                 $result->success = true;
@@ -76,6 +78,7 @@ if (defined('OSMYLICENSESMANAGER_LOADED')) {
          *
          * @param string $url
          * @param array  $headers
+         *
          * @return bool
          */
         public function onInstallerBeforePackageDownload(&$url, &$headers)
@@ -94,7 +97,7 @@ if (defined('OSMYLICENSESMANAGER_LOADED')) {
 
             // Appends the license keys to the URL
             $licenseKeys = $this->params->get('license-keys', '');
-            $url = UpdateHelper::appendLicenseKeyToURL($url, $licenseKeys);
+            $url         = UpdateHelper::appendLicenseKeyToURL($url, $licenseKeys);
 
             return true;
         }
