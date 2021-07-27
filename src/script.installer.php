@@ -28,6 +28,6 @@ require_once 'library/Installer/include.php';
 use Alledia\Installer\AbstractScript;
 
 
-class PlgSystemOSMyLicensesManagerInstallerScript extends AbstractScript
+class PlgSystemOsmylicensesmanagerInstallerScript extends AbstractScript
 {
 }
