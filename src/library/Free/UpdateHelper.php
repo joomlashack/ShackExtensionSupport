@@ -30,7 +30,7 @@ defined('_JEXEC') or die();
  */
 abstract class UpdateHelper
 {
-    const DEFAULT_LICENSE_KEY = '5a6f1dc7e58c04590b3f83b5f61f1aa4270772da';
+    public const DEFAULT_LICENSE_KEY = '5a6f1dc7e58c04590b3f83b5f61f1aa4270772da';
 
     /**
      * @var string
@@ -42,11 +42,11 @@ abstract class UpdateHelper
      *
      * @param string $url
      *
-     * @return string
+     * @return bool
      */
-    public static function isOurDownloadURL($url)
+    public static function isOurDownloadURL(string $url): bool
     {
-        return 1 === preg_match('#^' . self::$downloadBaseURL . '#', $url);
+        return preg_match('#^' . static::$downloadBaseURL . '#', $url) === 1;
     }
 
     /**
@@ -56,10 +56,10 @@ abstract class UpdateHelper
      *
      * @return string
      */
-    public static function getURLWithoutLicenseKey($url)
+    public static function getURLWithoutLicenseKey(string $url): string
     {
-        if (self::isOurDownloadURL($url)) {
-            $url = preg_replace('#^(' . self::$downloadBaseURL . '(free|pro)/[^/]+/[^/]+).*$#i', '$1', $url);
+        if (static::isOurDownloadURL($url)) {
+            $url = preg_replace('#^(' . static::$downloadBaseURL . '(free|pro|paid)/[^/]+/[^/]+).*$#i', '$1', $url);
             $url .= '/';
         }
 
@@ -69,11 +69,11 @@ abstract class UpdateHelper
     /**
      * Sanitizes the license key, making sure we have only valid chars.
      *
-     * @var string $key
+     * @param string $key
      *
      * @return string
      */
-    public static function sanitizeKey($key)
+    public static function sanitizeKey(string $key): string
     {
         return preg_replace('/[^a-z0-9,]/i', '', $key);
     }
@@ -88,23 +88,23 @@ abstract class UpdateHelper
      *
      * @return string
      */
-    public static function appendLicenseKeyToURL($url, $keys)
+    public static function appendLicenseKeyToURL(string $url, string $keys): string
     {
-        if (self::isOurDownloadURL($url)) {
+        if (static::isOurDownloadURL($url)) {
             // Handle possible generic key extensions
-            if (self::isGenericKeyDownload($url)) {
-                $keys = $sanitizedKeys = self::DEFAULT_LICENSE_KEY;
+            if (static::isGenericKeyDownload($url)) {
+                $keys = $sanitizedKeys = static::DEFAULT_LICENSE_KEY;
 
             } else {
                 // Removes any license key from the URL
                 $url = UpdateHelper::getURLWithoutLicenseKey($url);
 
-                $sanitizedKeys = self::sanitizeKey($keys);
+                $sanitizedKeys = static::sanitizeKey($keys);
             }
 
-            if (!empty($keys)) {
+            if ($keys) {
                 $encodedKeys = base64_encode($sanitizedKeys);
-                $url .= $encodedKeys;
+                $url         .= $encodedKeys;
             }
         }
 
@@ -119,7 +119,7 @@ abstract class UpdateHelper
      *
      * @return bool
      */
-    public static function isGenericKeyDownload($url)
+    public static function isGenericKeyDownload(string $url): bool
     {
         return false;
     }
@@ -130,16 +130,14 @@ abstract class UpdateHelper
      *
      * @param string $url
      *
-     * @return mixed
+     * @return ?string
      */
-    public static function getLicenseTypeFromURL($url)
+    public static function getLicenseTypeFromURL(string $url): ?string
     {
-        preg_match('#^' . self::$downloadBaseURL . '(free|pro)/#', $url, $matches);
-
-        if (isset($matches[1])) {
+        if (preg_match('#^' . static::$downloadBaseURL . '(free|pro)/#', $url, $matches)) {
             return $matches[1];
         }
 
-        return false;
+        return null;
     }
 }

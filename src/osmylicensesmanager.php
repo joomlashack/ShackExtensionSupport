@@ -22,99 +22,91 @@
  */
 
 use Alledia\Framework\Joomla\Extension\AbstractPlugin;
-use Alledia\OSMyLicensesManager\Free\UpdateHelper;
 use Alledia\OSMyLicensesManager\Free\PluginHelper;
-use Joomla\Event\Dispatcher;
+use Alledia\OSMyLicensesManager\Free\UpdateHelper;
+use Joomla\CMS\Application\CMSApplication;
+use Joomla\CMS\Factory;
 
 defined('_JEXEC') or die();
 
-require_once 'include.php';
+if (!require_once 'include.php') {
+    return;
+}
 
-if (defined('OSMYLICENSESMANAGER_LOADED')) {
+class PlgSystemOSMyLicensesManager extends AbstractPlugin
+{
     /**
-     * OSMyLicensesManager System Plugin
+     * @var CMSApplication
      */
-    class PlgSystemOSMyLicensesManager extends AbstractPlugin
+    protected $app = null;
+
+    /**
+     * @inheritdoc
+     */
+    protected $namespace = 'OSMyLicensesManager';
+
+    /**
+     * This method detects when a recently installed extension is
+     * trying to update the license key.
+     *
+     * @return void
+     * @throws Exception
+     */
+    public function onAfterInitialise()
     {
-        /**
-         * The constructor
-         *
-         * @param Dispatcher $subject
-         * @param array      $config
-         */
-        public function __construct(&$subject, $config = array())
-        {
-            $this->namespace = 'OSMyLicensesManager';
+        $plugin = $this->app->input->getCmd('plugin');
+        $task   = $this->app->input->getCmd('task');
+        $user   = Factory::getUser();
 
-            parent::__construct($subject, $config);
+        // Filter the request, to only trigger when the user tried to save a license key from the installer screen
+        if (
+            !$this->app->isClient('administrator')
+            || $plugin !== 'system_osmylicensesmanager'
+            || $task !== 'license.save'
+            || $user->guest
+        ) {
+            return;
         }
 
-        /**
-         * This method detects when a recently installed extension is
-         * trying to update the license key.
-         *
-         * @return void
-         * @throws Exception
-         */
-        public function onAfterInitialise()
-        {
-            $app    = JFactory::getApplication();
-            $plugin = $app->input->getCmd('plugin');
-            $task   = $app->input->getCmd('task');
-            $user   = JFactory::getUser();
+        $this->init();
 
-            // Filter the request, to only trigger when the user tried to save a license key from the installer screen
-            if (!$app->isClient('administrator')
-                || $plugin !== 'system_osmylicensesmanager'
-                || $task !== 'license.save'
-                || $user->guest) {
+        $licenseKeys = $this->app->input->post->getString('license-keys', '');
 
-                return;
-            }
+        $result = (object)[
+            'success' => PluginHelper::updateLicenseKeys($licenseKeys)
+        ];
 
-            $this->init();
+        echo json_encode($result);
 
-            $licenseKeys = $app->input->post->getString('license-keys', '');
+        jexit();
+    }
 
-            $result          = new stdClass;
-            $result->success = false;
-            if (PluginHelper::updateLicenseKeys($licenseKeys)) {
-                $result->success = true;
-            }
-
-            echo json_encode($result);
-
-            jexit();
-        }
-
-        /**
-         * Handle download URL and headers append the license keys to the url,
-         * if it is a valid URL of Pro extension.
-         *
-         * @param string $url
-         * @param array  $headers
-         *
-         * @return bool
-         */
-        public function onInstallerBeforePackageDownload(&$url, &$headers)
-        {
-            // Only handle our urls
-            if (!UpdateHelper::isOurDownloadURL($url)) {
-                return true;
-            }
-
-            // Check if it is not a free extension
-            if ('free' === UpdateHelper::getLicenseTypeFromURL($url)) {
-                return true;
-            }
-
-            $this->init();
-
-            // Appends the license keys to the URL
-            $licenseKeys = $this->params->get('license-keys', '');
-            $url         = UpdateHelper::appendLicenseKeyToURL($url, $licenseKeys);
-
+    /**
+     * Handle download URL and headers append the license keys to the url,
+     * if it is a valid URL of Pro extension.
+     *
+     * @param string $url
+     *
+     * @return bool
+     */
+    public function onInstallerBeforePackageDownload(string &$url): bool
+    {
+        // Only handle our urls
+        if (!UpdateHelper::isOurDownloadURL($url)) {
             return true;
         }
+
+        // Check if it is not a free extension
+        if ('free' === UpdateHelper::getLicenseTypeFromURL($url)) {
+            return true;
+        }
+
+        $this->init();
+
+        // Appends the license keys to the URL
+        $licenseKeys = $this->params->get('license-keys', '');
+        $url         = UpdateHelper::appendLicenseKeyToURL($url, $licenseKeys);
+
+        return true;
     }
 }

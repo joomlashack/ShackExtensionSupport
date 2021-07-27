@@ -23,7 +23,7 @@
 
 namespace Alledia\OSMyLicensesManager\Free;
 
-use Alledia\Framework\Extension;
+use Alledia\Framework\Joomla\Extension\Licensed;
 
 defined('_JEXEC') or die();
 
@@ -35,16 +35,16 @@ abstract class PluginHelper
     /**
      * Update the license key on the plugin params
      *
-     * @param  string $licenseKeys
-     * @return boolean
+     * @param ?string $licenseKeys
+     *
+     * @return bool
      */
-    public static function updateLicenseKeys($licenseKeys = '')
+    public static function updateLicenseKeys(?string $licenseKeys = ''): bool
     {
-        // Sanitize
         $licenseKeys = UpdateHelper::sanitizeKey($licenseKeys);
 
         // Update the extension params
-        $extension = new Extension('osmylicensesmanager', 'plugin', 'system');
+        $extension = new Licensed('osmylicensesmanager', 'plugin', 'system');
         $extension->params->set('license-keys', $licenseKeys);
         $extension->storeParams();
 
