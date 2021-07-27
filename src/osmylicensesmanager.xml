@@ -16,6 +16,9 @@
         <namespace>OSMyLicensesManager</namespace>
         <name>Joomlashack License Key Manager</name>
         <license>free</license>
+        <platform>3.9</platform>
+        <phpminimum>7.2.5</phpminimum>
+
         <relatedExtensions>
             <extension type="library"
                        element="allediaframework">AllediaFramework</extension>
