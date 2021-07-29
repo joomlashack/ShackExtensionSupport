@@ -24,7 +24,7 @@
                        element="allediaframework">ShackFramework</extension>
         </relatedExtensions>
 
-        <include>ShackFreeDefaultFiles</include>
+        <include>ShackDefaultFiles</include>
 
         <obsolete>
             <file>/plugins/system/osmylicensesmanager/library/Free/UpdateHelper.php</file>
