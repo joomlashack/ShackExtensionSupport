@@ -27,9 +27,6 @@ use Alledia\Framework\Joomla\Extension\Licensed;
 
 defined('_JEXEC') or die();
 
-/**
- * Helper class
- */
 abstract class PluginHelper
 {
     /**

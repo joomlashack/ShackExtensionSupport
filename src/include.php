@@ -26,19 +26,18 @@ use Joomla\CMS\Factory;
 
 defined('_JEXEC') or die();
 
-// Alledia Framework
 if (!defined('ALLEDIA_FRAMEWORK_LOADED')) {
     $allediaFrameworkPath = JPATH_SITE . '/libraries/allediaframework/include.php';
 
-    if (file_exists($allediaFrameworkPath)) {
+    if (is_file($allediaFrameworkPath)) {
         require_once $allediaFrameworkPath;
+
     } else {
         Factory::getApplication()
             ->enqueueMessage('[Joomlashack License Key Manager] Joomlashack Framework not found', 'error');
     }
 }
 
-// Extension's library
 if (defined('ALLEDIA_FRAMEWORK_LOADED') && !defined('OSMYLICENSESMANAGER_LOADED')) {
     AutoLoader::register('\\Alledia\\OSMyLicensesManager', JPATH_SITE . '/plugins/system/osmylicensesmanager/library');
 
