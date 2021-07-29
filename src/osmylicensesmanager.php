@@ -22,6 +22,7 @@
  */
 
 use Alledia\Framework\Joomla\Extension\AbstractPlugin;
+use Alledia\Framework\Joomla\Extension\Helper;
 use Alledia\OSMyLicensesManager\Free\PluginHelper;
 use Alledia\OSMyLicensesManager\Free\UpdateHelper;
 use Joomla\CMS\Application\CMSApplication;
@@ -46,11 +47,7 @@ class PlgSystemOSMyLicensesManager extends AbstractPlugin
     protected $namespace = 'OSMyLicensesManager';
 
     /**
-     * This method detects when a recently installed extension is
-     * trying to update the license key.
-     *
      * @return void
-     * @throws Exception
      */
     public function onAfterInitialise()
     {
@@ -82,6 +79,24 @@ class PlgSystemOSMyLicensesManager extends AbstractPlugin
     }
 
     /**
+     * @return void
+     */
+    public function onAfterRender()
+    {
+        $option    = $this->app->input->getCmd('option');
+        $extension = $this->app->input->getCmd('extension');
+
+        if (
+            $this->app->isClient('administrator')
+            && $option === 'com_categories'
+            && $extension
+            && $extension !== 'com_content'
+        ) {
+            $this->addCustomFooterIntoNativeComponentOutput($extension);
+        }
+    }
+
+    /**
      * Handle download URL and headers append the license keys to the url,
      * if it is a valid URL of Pro extension.
      *
@@ -108,5 +123,23 @@ class PlgSystemOSMyLicensesManager extends AbstractPlugin
         $url         = UpdateHelper::appendLicenseKeyToURL($url, $licenseKeys);
 
         return true;
+    }
+
+    /**
+     * @param ?string $element
+     *
+     * @return void
+     */
+    protected function addCustomFooterIntoNativeComponentOutput(?string $element)
+    {
+        // Check if the specified extension is from Alledia
+        $extension = Helper::getExtensionForElement($element);
+        $footer    = $extension->getFooterMarkup();
+
+        if (!empty($footer)) {
+            $this->app->setBody(
+                str_replace('</section>', '</section>' . $footer, $this->app->getBody())
+            );
+        }
     }
 }

@@ -21,16 +21,16 @@
 
         <relatedExtensions>
             <extension type="library"
-                       element="allediaframework">AllediaFramework</extension>
-
-            <extension type="plugin"
-                       group="system"
-                       element="osystem"
-                       publish="true"
-                       ordering="first">OSSystem</extension>
+                       element="allediaframework">ShackFramework</extension>
         </relatedExtensions>
 
-        <include>AllediaFreeDefaultFiles</include>
+        <include>ShackFreeDefaultFiles</include>
+
+        <obsolete>
+            <extension type="plugin"
+                       group="system"
+                       element="ossystem"/>
+        </obsolete>
     </alledia>
 
     <scriptfile>script.installer.php</scriptfile>
