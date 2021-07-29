@@ -66,6 +66,6 @@
     </config>
 
     <updateservers>
-        <server type="extension" priority="1" name="Joomlashack License Manager"><![CDATA[https://deploy.ostraining.com/client/update/free/stable/plg_system_osmylicensesmanager]]></server>
+        <server type="extension" priority="1" name="Joomlashack Extension Support"><![CDATA[https://deploy.ostraining.com/client/update/free/stable/plg_system_osmylicensesmanager]]></server>
     </updateservers>
 </extension>
