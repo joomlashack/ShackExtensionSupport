@@ -27,8 +27,18 @@ use Alledia\Framework\Joomla\Extension\Licensed;
 
 defined('_JEXEC') or die();
 
+/**
+ * PluginHelper class
+ */
 abstract class PluginHelper
 {
+    public const DEFAULT_LICENSE_KEY = '5a6f1dc7e58c04590b3f83b5f61f1aa4270772da';
+
+    /**
+     * @var string
+     */
+    protected static $downloadBaseURL = 'https://deploy.ostraining.com/client/download/';
+
     /**
      * Update the license key on the plugin params
      *
@@ -38,7 +48,7 @@ abstract class PluginHelper
      */
     public static function updateLicenseKeys(?string $licenseKeys = ''): bool
     {
-        $licenseKeys = UpdateHelper::sanitizeKey($licenseKeys);
+        $licenseKeys = PluginHelper::sanitizeKey($licenseKeys);
 
         // Update the extension params
         $extension = new Licensed('osmylicensesmanager', 'plugin', 'system');
@@ -46,5 +56,109 @@ abstract class PluginHelper
         $extension->storeParams();
 
         return true;
+    }
+
+    /**
+     * Detects if the passed URL is our download URL, returning a boolean value.
+     *
+     * @param string $url
+     *
+     * @return bool
+     */
+    public static function isOurDownloadURL(string $url): bool
+    {
+        return preg_match('#^' . static::$downloadBaseURL . '#', $url) === 1;
+    }
+
+    /**
+     * Removes the license key from the URL and returns it.
+     *
+     * @param string $url
+     *
+     * @return string
+     */
+    public static function getURLWithoutLicenseKey(string $url): string
+    {
+        if (static::isOurDownloadURL($url)) {
+            $url = preg_replace('#^(' . static::$downloadBaseURL . '(free|pro|paid)/[^/]+/[^/]+).*$#i', '$1', $url);
+            $url .= '/';
+        }
+
+        return $url;
+    }
+
+    /**
+     * Sanitizes the license key, making sure we have only valid chars.
+     *
+     * @param string $key
+     *
+     * @return string
+     */
+    public static function sanitizeKey(string $key): string
+    {
+        return preg_replace('/[^a-z0-9,]/i', '', $key);
+    }
+
+    /**
+     * Appends the license key to the URL and returns it. We recognize the url
+     * for designated generic extensions using a default license key to allow
+     * legacy customers to download updates.
+     *
+     * @param string $url
+     * @param string $keys
+     *
+     * @return string
+     */
+    public static function appendLicenseKeyToURL(string $url, string $keys): string
+    {
+        if (static::isOurDownloadURL($url)) {
+            // Handle possible generic key extensions
+            if (static::isGenericKeyDownload($url)) {
+                $keys = $sanitizedKeys = static::DEFAULT_LICENSE_KEY;
+
+            } else {
+                // Removes any license key from the URL
+                $url = PluginHelper::getURLWithoutLicenseKey($url);
+
+                $sanitizedKeys = static::sanitizeKey($keys);
+            }
+
+            if ($keys) {
+                $encodedKeys = base64_encode($sanitizedKeys);
+                $url         .= $encodedKeys;
+            }
+        }
+
+        return $url;
+    }
+
+    /**
+     * Detects if it is a recognized generic pro license download URL. This method can be
+     * updated as needed whenever we a generic license key. For example, legacy extensions
+     *
+     * @param string $url
+     *
+     * @return bool
+     */
+    public static function isGenericKeyDownload(string $url): bool
+    {
+        return false;
+    }
+
+    /**
+     * Detects the license type based on the URL. If no license is detected,
+     * returns false
+     *
+     * @param string $url
+     *
+     * @return ?string
+     */
+    public static function getLicenseTypeFromURL(string $url): ?string
+    {
+        if (preg_match('#^' . static::$downloadBaseURL . '(free|pro)/#', $url, $matches)) {
+            return $matches[1];
+        }
+
+        return null;
     }
 }

@@ -24,7 +24,6 @@
 use Alledia\Framework\Joomla\Extension\AbstractPlugin;
 use Alledia\Framework\Joomla\Extension\Helper;
 use Alledia\OSMyLicensesManager\Free\PluginHelper;
-use Alledia\OSMyLicensesManager\Free\UpdateHelper;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
 
@@ -107,12 +106,12 @@ class PlgSystemOSMyLicensesManager extends AbstractPlugin
     public function onInstallerBeforePackageDownload(string &$url): bool
     {
         // Only handle our urls
-        if (!UpdateHelper::isOurDownloadURL($url)) {
+        if (!PluginHelper::isOurDownloadURL($url)) {
             return true;
         }
 
         // Check if it is not a free extension
-        if ('free' === UpdateHelper::getLicenseTypeFromURL($url)) {
+        if (PluginHelper::getLicenseTypeFromURL($url) === 'free') {
             return true;
         }
 
@@ -120,7 +119,7 @@ class PlgSystemOSMyLicensesManager extends AbstractPlugin
 
         // Appends the license keys to the URL
         $licenseKeys = $this->params->get('license-keys', '');
-        $url         = UpdateHelper::appendLicenseKeyToURL($url, $licenseKeys);
+        $url         = PluginHelper::appendLicenseKeyToURL($url, $licenseKeys);
 
         return true;
     }

@@ -27,6 +27,8 @@
         <include>ShackFreeDefaultFiles</include>
 
         <obsolete>
+            <file>/plugins/system/osmylicensesmanager/library/Free/UpdateHelper.php</file>
+
             <extension type="plugin"
                        group="system"
                        element="ossystem"/>
