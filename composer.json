@@ -1,6 +1,6 @@
 {
     "name"             : "joomlashack/osmylicensesmanager",
-    "description"      : "OSMyLicensesManager",
+    "description"      : "Joomlashack Extension Support",
     "minimum-stability": "stable",
     "license"          : "GPL-2.0-or-later",
     "type"             : "joomla-plugin",
