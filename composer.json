@@ -10,6 +10,7 @@
         "name"           : "OSMyLicensesManager",
         "folder"         : "system",
         "client"         : "site",
+        "target-platform": "3.9",
         "package-license": "free"
     },
     "authors"          : [
