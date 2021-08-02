@@ -14,7 +14,7 @@
     <alledia>
         <element publish="true">osmylicensesmanager</element>
         <namespace>OSMyLicensesManager</namespace>
-        <name>Joomlashack License Key Manager</name>
+        <name>Joomlashack Extension Support</name>
         <license>free</license>
         <platform>3.9</platform>
         <phpminimum>7.2.5</phpminimum>
