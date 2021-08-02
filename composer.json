@@ -7,7 +7,7 @@
     "extra"            : {
         "element"        : "plg_system_osmylicensesmanager",
         "element-short"  : "osmylicensesmanager",
-        "name"           : "OSMyLicensesManager",
+        "name"           : "Joomlashack Extension Support",
         "folder"         : "system",
         "client"         : "site",
         "target-platform": "3.9",
