@@ -10,7 +10,7 @@
         "name"           : "Joomlashack Extension Support",
         "folder"         : "system",
         "client"         : "site",
-        "target-platform": "3.10",
+        "target-platform": "3.(9|10)",
         "package-license": "free"
     },
     "authors"          : [
