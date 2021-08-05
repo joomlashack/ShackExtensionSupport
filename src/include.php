@@ -34,7 +34,7 @@ if (!defined('ALLEDIA_FRAMEWORK_LOADED')) {
 
     } else {
         Factory::getApplication()
-            ->enqueueMessage('[Joomlashack License Key Manager] Joomlashack Framework not found', 'error');
+            ->enqueueMessage('[Joomlashack Extension Support] Joomlashack Framework not found', 'error');
     }
 }
 
