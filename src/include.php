@@ -29,10 +29,10 @@ defined('_JEXEC') or die();
 if (!defined('ALLEDIA_FRAMEWORK_LOADED')) {
     $allediaFrameworkPath = JPATH_SITE . '/libraries/allediaframework/include.php';
 
-    if (is_file($allediaFrameworkPath)) {
-        require_once $allediaFrameworkPath;
-
-    } else {
+    if (
+        !(is_file($allediaFrameworkPath) && include $allediaFrameworkPath)
+        && Factory::getApplication()->isClient('administrator')
+    ) {
         Factory::getApplication()
             ->enqueueMessage('[Joomlashack Extension Support] Joomlashack Framework not found', 'error');
     }
@@ -44,4 +44,4 @@ if (defined('ALLEDIA_FRAMEWORK_LOADED') && !defined('SHACKEXTENSIONSUPPORT_LOADE
     define('SHACKEXTENSIONSUPPORT_LOADED', 1);
 }
 
-return defined('SHACKEXTENSIONSUPPORT_LOADED');
+return defined('ALLEDIA_FRAMEWORK_LOADED') && defined('SHACKEXTENSIONSUPPORT_LOADED');
