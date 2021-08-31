@@ -27,10 +27,10 @@ use Joomla\CMS\Factory;
 defined('_JEXEC') or die();
 
 if (!defined('ALLEDIA_FRAMEWORK_LOADED')) {
-    $allediaFrameworkPath = JPATH_SITE . '/libraries/allediaframework/include.php';
+    $frameworkPath = JPATH_SITE . '/libraries/allediaframework/include.php';
 
     if (
-        !(is_file($allediaFrameworkPath) && include $allediaFrameworkPath)
+        !(is_file($frameworkPath) && include $frameworkPath)
         && Factory::getApplication()->isClient('administrator')
     ) {
         Factory::getApplication()
