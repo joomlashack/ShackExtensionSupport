@@ -24,33 +24,9 @@
 defined('_JEXEC') or die();
 
 use Alledia\Installer\AbstractScript;
-use Alledia\Installer\TraitInstallerCheck;
 
 require_once 'library/Installer/include.php';
 
 class PlgSystemOsmylicensesmanagerInstallerScript extends AbstractScript
 {
-    use TraitInstallerCheck;
-
-    /**
-     * @inheritDoc
-     */
-    public function __construct($parent)
-    {
-        if ($this->checkInheritance($parent)) {
-            parent::__construct($parent);
-        }
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function preFlight($type, $parent)
-    {
-        if ($this->cancelInstallation) {
-            return false;
-        }
-
-        return parent::preFlight($type, $parent);
-    }
 }
