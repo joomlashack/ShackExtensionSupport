@@ -21,7 +21,6 @@
     ],
     "require"          : {
         "php"          : ">=7.2.5",
-        "ext-json"     : "*",
-        "pimple/pimple": "^3.0"
+        "ext-json"     : "*"
     }
 }
