@@ -32,8 +32,6 @@ defined('_JEXEC') or die();
  */
 abstract class PluginHelper
 {
-    public const DEFAULT_LICENSE_KEY = '5a6f1dc7e58c04590b3f83b5f61f1aa4270772da';
-
     /**
      * @var string
      */
@@ -112,16 +110,9 @@ abstract class PluginHelper
     public static function appendLicenseKeyToURL(string $url, string $keys): string
     {
         if (static::isOurDownloadURL($url)) {
-            // Handle possible generic key extensions
-            if (static::isGenericKeyDownload($url)) {
-                $keys = $sanitizedKeys = static::DEFAULT_LICENSE_KEY;
+            $url = PluginHelper::getURLWithoutLicenseKey($url);
 
-            } else {
-                // Removes any license key from the URL
-                $url = PluginHelper::getURLWithoutLicenseKey($url);
-
-                $sanitizedKeys = static::sanitizeKey($keys);
-            }
+            $sanitizedKeys = static::sanitizeKey($keys);
 
             if ($keys) {
                 $encodedKeys = base64_encode($sanitizedKeys);
@@ -130,19 +121,6 @@ abstract class PluginHelper
         }
 
         return $url;
-    }
-
-    /**
-     * Detects if it is a recognized generic pro license download URL. This method can be
-     * updated as needed whenever we a generic license key. For example, legacy extensions
-     *
-     * @param string $url
-     *
-     * @return bool
-     */
-    public static function isGenericKeyDownload(string $url): bool
-    {
-        return false;
     }
 
     /**

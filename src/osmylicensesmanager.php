@@ -93,32 +93,22 @@ if (include 'include.php') {
         }
 
         /**
-         * Handle download URL and headers append the license keys to the url,
-         * if it is a valid URL of Pro extension.
-         *
          * @param string $url
          *
-         * @return bool
+         * @return void
          */
-        public function onInstallerBeforePackageDownload(string &$url): bool
+        public function onInstallerBeforePackageDownload(string &$url)
         {
-            // Only handle our urls
-            if (!PluginHelper::isOurDownloadURL($url)) {
-                return true;
+            if (
+                PluginHelper::isOurDownloadURL($url)
+                && PluginHelper::getLicenseTypeFromURL($url) !== 'free'
+            ) {
+                $this->init();
+
+                // Append the license keys to the URL
+                $licenseKeys = $this->params->get('license-keys', '');
+                $url         = PluginHelper::appendLicenseKeyToURL($url, $licenseKeys);
             }
-
-            // Check if it is not a free extension
-            if (PluginHelper::getLicenseTypeFromURL($url) === 'free') {
-                return true;
-            }
-
-            $this->init();
-
-            // Appends the license keys to the URL
-            $licenseKeys = $this->params->get('license-keys', '');
-            $url         = PluginHelper::appendLicenseKeyToURL($url, $licenseKeys);
-
-            return true;
         }
 
         /**
