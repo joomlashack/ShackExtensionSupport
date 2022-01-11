@@ -51,27 +51,25 @@ if (include 'include.php') {
             $task   = $this->app->input->getCmd('task');
             $user   = Factory::getUser();
 
-            // Filter the request, to only trigger when the user tried to save a license key from the installer screen
             if (
-                !$this->app->isClient('administrator')
-                || $plugin !== 'system_osmylicensesmanager'
-                || $task !== 'license.save'
-                || $user->guest
+                $this->app->isClient('administrator')
+                && $plugin == 'system_osmylicensesmanager'
+                && $task == 'license.save'
+                && $user->guest == false
             ) {
-                return;
+                // The user is saving a license key from the installer screen
+                $this->init();
+
+                $licenseKeys = $this->app->input->post->getString('license-keys', '');
+
+                $result = (object)[
+                    'success' => PluginHelper::updateLicenseKeys($licenseKeys)
+                ];
+
+                echo json_encode($result);
+
+                jexit();
             }
-
-            $this->init();
-
-            $licenseKeys = $this->app->input->post->getString('license-keys', '');
-
-            $result = (object)[
-                'success' => PluginHelper::updateLicenseKeys($licenseKeys)
-            ];
-
-            echo json_encode($result);
-
-            jexit();
         }
 
         /**
@@ -86,9 +84,8 @@ if (include 'include.php') {
                 $this->app->isClient('administrator')
                 && $option === 'com_categories'
                 && $extension
-                && $extension !== 'com_content'
             ) {
-                $this->addCustomFooterIntoNativeComponentOutput($extension);
+                $this->addCustomFooterToCategories($extension);
             }
         }
 
@@ -116,16 +113,18 @@ if (include 'include.php') {
          *
          * @return void
          */
-        protected function addCustomFooterIntoNativeComponentOutput(?string $element)
+        protected function addCustomFooterToCategories(?string $element)
         {
-            // Check if the specified extension is from Alledia
-            $extension = Helper::getExtensionForElement($element);
-            $footer    = $extension->getFooterMarkup();
+            if ($element) {
+                // Check if the specified extension is from Alledia
+                $extension = Helper::getExtensionForElement($element);
+                $footer    = $extension->getFooterMarkup();
 
-            if (!empty($footer)) {
-                $this->app->setBody(
-                    str_replace('</section>', '</section>' . $footer, $this->app->getBody())
-                );
+                if ($footer) {
+                    $this->app->setBody(
+                        str_replace('</section>', '</section>' . $footer, $this->app->getBody())
+                    );
+                }
             }
         }
     }
