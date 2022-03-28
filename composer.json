@@ -11,7 +11,8 @@
         "folder"         : "system",
         "client"         : "site",
         "target-platform": ".*",
-        "package-license": "free"
+        "package-license": "free",
+        "infourl"        : "https://github.com/joomlashack/ShackExtensionSupport/releases"
     },
     "authors"          : [
         {
@@ -20,7 +21,7 @@
         }
     ],
     "require"          : {
-        "php"          : ">=7.2.5",
-        "ext-json"     : "*"
+        "php"     : ">=7.2.5",
+        "ext-json": "*"
     }
 }
