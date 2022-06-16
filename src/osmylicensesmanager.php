@@ -117,13 +117,12 @@ if (include 'include.php') {
         {
             if ($element) {
                 // Check if the specified extension is from Alledia
-                $extension = Helper::getExtensionForElement($element);
-                $footer    = $extension->getFooterMarkup();
-
-                if ($footer) {
-                    $this->app->setBody(
-                        str_replace('</section>', '</section>' . $footer, $this->app->getBody())
-                    );
+                if ($extension = Helper::getExtensionForElement($element)) {
+                    if ($footer = $extension->getFooterMarkup()) {
+                        $this->app->setBody(
+                            str_replace('</section>', '</section>' . $footer, $this->app->getBody())
+                        );
+                    }
                 }
             }
         }
