@@ -21,11 +21,15 @@
  * along with ShackExtensionSupport.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-defined('_JEXEC') or die();
-
 use Alledia\Installer\AbstractScript;
 
+// phpcs:disable PSR1.Files.SideEffects
+defined('_JEXEC') or die();
+
 require_once 'library/Installer/include.php';
+
+// phpcs:enable PSR1.Files.SideEffects
+// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
 
 class PlgSystemOsmylicensesmanagerInstallerScript extends AbstractScript
 {

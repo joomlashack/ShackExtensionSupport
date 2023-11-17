@@ -25,7 +25,9 @@ namespace Alledia\OSMyLicensesManager\Free;
 
 use Alledia\Framework\Joomla\Extension\Licensed;
 
+// phpcs:disable PSR1.Files.SideEffects
 defined('_JEXEC') or die();
+// phpcs:enable PSR1.Files.SideEffects
 
 /**
  * PluginHelper class
