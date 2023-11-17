@@ -24,107 +24,138 @@
 use Alledia\Framework\Joomla\Extension\AbstractPlugin;
 use Alledia\Framework\Joomla\Extension\Helper;
 use Alledia\OSMyLicensesManager\Free\PluginHelper;
+use Alledia\OSMyLicensesManager\PluginBase;
 use Joomla\CMS\Application\CMSApplication;
 use Joomla\CMS\Factory;
+use Joomla\CMS\Plugin\CMSPlugin;
 
+// phpcs:disable PSR1.Files.SideEffects
 defined('_JEXEC') or die();
 
-if (include 'include.php') {
-    class PlgSystemOSMyLicensesManager extends AbstractPlugin
+if ((include 'include.php') == false) {
+    class_alias(CMSPlugin::class, PluginBase::class);
+} else {
+    class_alias(AbstractPlugin::class, PluginBase::class);
+}
+
+// phpcs:enable PSR1.Files.SideEffects
+// phpcs:disable PSR1.Classes.ClassDeclaration.MissingNamespace
+
+class PlgSystemOSMyLicensesManager extends PluginBase
+{
+    /**
+     * @var CMSApplication
+     */
+    protected $app = null;
+
+    /**
+     * @inheritdoc
+     */
+    protected $namespace = 'OSMyLicensesManager';
+
+    /**
+     * @var bool
+     */
+    protected $enabled = null;
+
+    /**
+     * @return void
+     */
+    public function onAfterInitialise()
     {
-        /**
-         * @var CMSApplication
-         */
-        protected $app = null;
 
-        /**
-         * @inheritdoc
-         */
-        protected $namespace = 'OSMyLicensesManager';
+        $plugin = $this->app->input->getCmd('plugin');
+        $task   = $this->app->input->getCmd('task');
+        $user   = Factory::getUser();
 
-        /**
-         * @return void
-         */
-        public function onAfterInitialise()
-        {
-            $plugin = $this->app->input->getCmd('plugin');
-            $task   = $this->app->input->getCmd('task');
-            $user   = Factory::getUser();
+        if (
+            $this->isEnabled()
+            && $this->app->isClient('administrator')
+            && $plugin == 'system_osmylicensesmanager'
+            && $task == 'license.save'
+            && $user->guest == false
+        ) {
+            // The user is saving a license key from the installer screen
+            $this->init();
 
-            if (
-                $this->app->isClient('administrator')
-                && $plugin == 'system_osmylicensesmanager'
-                && $task == 'license.save'
-                && $user->guest == false
-            ) {
-                // The user is saving a license key from the installer screen
-                $this->init();
+            $licenseKeys = $this->app->input->post->getString('license-keys', '');
 
-                $licenseKeys = $this->app->input->post->getString('license-keys', '');
+            $result = (object)[
+                'success' => PluginHelper::updateLicenseKeys($licenseKeys),
+            ];
 
-                $result = (object)[
-                    'success' => PluginHelper::updateLicenseKeys($licenseKeys)
-                ];
+            echo json_encode($result);
 
-                echo json_encode($result);
-
-                jexit();
-            }
+            jexit();
         }
+    }
 
-        /**
-         * @return void
-         */
-        public function onAfterRender()
-        {
-            $option    = $this->app->input->getCmd('option');
-            $extension = $this->app->input->getCmd('extension');
+    /**
+     * @return void
+     */
+    public function onAfterRender()
+    {
+        $option    = $this->app->input->getCmd('option');
+        $extension = $this->app->input->getCmd('extension');
 
-            if (
-                $this->app->isClient('administrator')
-                && $option === 'com_categories'
-                && $extension
-            ) {
-                $this->addCustomFooterToCategories($extension);
-            }
+        if (
+            $this->isEnabled()
+            && $this->app->isClient('administrator')
+            && $option === 'com_categories'
+            && $extension
+        ) {
+            $this->addCustomFooterToCategories($extension);
         }
+    }
 
-        /**
-         * @param string $url
-         *
-         * @return void
-         */
-        public function onInstallerBeforePackageDownload(string &$url)
-        {
-            if (
-                PluginHelper::isOurDownloadURL($url)
-                && PluginHelper::getLicenseTypeFromURL($url) !== 'free'
-            ) {
-                $this->init();
+    /**
+     * @param string $url
+     *
+     * @return void
+     */
+    public function onInstallerBeforePackageDownload(string &$url)
+    {
+        if (
+            $this->isEnabled()
+            && PluginHelper::isOurDownloadURL($url)
+            && PluginHelper::getLicenseTypeFromURL($url) !== 'free'
+        ) {
+            $this->init();
 
-                // Append the license keys to the URL
-                $licenseKeys = $this->params->get('license-keys', '');
-                $url         = PluginHelper::appendLicenseKeyToURL($url, $licenseKeys);
-            }
+            // Append the license keys to the URL
+            $licenseKeys = $this->params->get('license-keys', '');
+            $url         = PluginHelper::appendLicenseKeyToURL($url, $licenseKeys);
         }
+    }
 
-        /**
-         * @param ?string $element
-         *
-         * @return void
-         */
-        protected function addCustomFooterToCategories(?string $element)
-        {
-            if ($element) {
-                // Check if the specified extension is from Alledia
-                if ($extension = Helper::getExtensionForElement($element)) {
-                    if ($footer = $extension->getFooterMarkup()) {
-                        $this->app->setBody(
-                            str_replace('</section>', '</section>' . $footer, $this->app->getBody())
-                        );
-                    }
+    /**
+     * @param ?string $element
+     *
+     * @return void
+     */
+    protected function addCustomFooterToCategories(?string $element)
+    {
+        if ($this->isEnabled() && $element) {
+            // Check if the specified extension is from Alledia
+            if ($extension = Helper::getExtensionForElement($element)) {
+                if ($footer = $extension->getFooterMarkup()) {
+                    $this->app->setBody(
+                        str_replace('</section>', '</section>' . $footer, $this->app->getBody())
+                    );
                 }
             }
         }
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isEnabled(): bool
+    {
+        if ($this->enabled === null) {
+            $this->enabled = $this instanceof AbstractPlugin;
+        }
+
+        return $this->enabled;
     }
 }

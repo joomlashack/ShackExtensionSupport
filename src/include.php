@@ -24,22 +24,26 @@
 use Alledia\Framework\AutoLoader;
 use Joomla\CMS\Factory;
 
+// phpcs:disable PSR1.Files.SideEffects
 defined('_JEXEC') or die();
 
-if (!defined('ALLEDIA_FRAMEWORK_LOADED')) {
+if (defined('ALLEDIA_FRAMEWORK_LOADED') == false) {
     $frameworkPath = JPATH_SITE . '/libraries/allediaframework/include.php';
 
     if (
-        !(is_file($frameworkPath) && include $frameworkPath)
-        && Factory::getApplication()->isClient('administrator')
+        (is_file($frameworkPath) && include $frameworkPath) == false
+            && Factory::getApplication()->isClient('administrator')
     ) {
         Factory::getApplication()
             ->enqueueMessage('[Joomlashack Extension Support] Joomlashack Framework not found', 'error');
     }
 }
 
-if (defined('ALLEDIA_FRAMEWORK_LOADED') && !defined('SHACKEXTENSIONSUPPORT_LOADED')) {
-    AutoLoader::register('\\Alledia\\OSMyLicensesManager', JPATH_SITE . '/plugins/system/osmylicensesmanager/library');
+if (
+    defined('ALLEDIA_FRAMEWORK_LOADED')
+    && defined('SHACKEXTENSIONSUPPORT_LOADED') == false
+) {
+    AutoLoader::register('\\Alledia\\OSMyLicensesManager', JPATH_PLUGINS . '/system/osmylicensesmanager/library');
 
     define('SHACKEXTENSIONSUPPORT_LOADED', 1);
 }
