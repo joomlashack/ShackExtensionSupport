@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="plugin" group="system" method="upgrade">
     <name>plg_system_osmylicensesmanager</name>
-    <author>Joomlashack.com</author>
+    <author>Joomlashack</author>
     <authorEmail>help@joomlashack.com</authorEmail>
     <authorUrl>https://www.joomlashack.com</authorUrl>
     <copyright>Copyright 2016-2023 Joomlashack. All rights reserved</copyright>
