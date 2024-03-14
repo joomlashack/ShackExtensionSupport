@@ -61,7 +61,7 @@ class PlgSystemOSMyLicensesManager extends PluginBase
     /**
      * @return void
      */
-    public function onAfterInitialise()
+    public function onAfterInitialise(): void
     {
 
         $plugin = $this->app->input->getCmd('plugin');
@@ -93,7 +93,7 @@ class PlgSystemOSMyLicensesManager extends PluginBase
     /**
      * @return void
      */
-    public function onAfterRender()
+    public function onAfterRender(): void
     {
         $option    = $this->app->input->getCmd('option');
         $extension = $this->app->input->getCmd('extension');
@@ -113,18 +113,18 @@ class PlgSystemOSMyLicensesManager extends PluginBase
      *
      * @return void
      */
-    public function onInstallerBeforePackageDownload(string &$url)
+    public function onInstallerBeforePackageDownload(string &$url): void
     {
         if (
             $this->isEnabled()
-            && PluginHelper::isOurDownloadURL($url)
             && PluginHelper::getLicenseTypeFromURL($url) !== 'free'
         ) {
             $this->init();
 
             // Append the license keys to the URL
-            $licenseKeys = $this->params->get('license-keys', '');
-            $url         = PluginHelper::appendLicenseKeyToURL($url, $licenseKeys);
+            if ($licenseKeys = $this->params->get('license-keys', '')) {
+                $url = PluginHelper::appendLicenseKeyToURL($url, $licenseKeys);
+            }
         }
     }
 
@@ -133,7 +133,7 @@ class PlgSystemOSMyLicensesManager extends PluginBase
      *
      * @return void
      */
-    protected function addCustomFooterToCategories(?string $element)
+    protected function addCustomFooterToCategories(?string $element): void
     {
         if ($this->isEnabled() && $element) {
             // Check if the specified extension is from Alledia
