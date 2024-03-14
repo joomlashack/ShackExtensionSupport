@@ -115,16 +115,14 @@ class PlgSystemOSMyLicensesManager extends PluginBase
      */
     public function onInstallerBeforePackageDownload(string &$url): void
     {
+        $licenseKeys = $this->params->get('license-keys', '');
         if (
             $this->isEnabled()
+            && $licenseKeys
             && PluginHelper::getLicenseTypeFromURL($url) !== 'free'
         ) {
             $this->init();
-
-            // Append the license keys to the URL
-            if ($licenseKeys = $this->params->get('license-keys', '')) {
-                $url = PluginHelper::appendLicenseKeyToURL($url, $licenseKeys);
-            }
+            $url = PluginHelper::appendLicenseKeyToURL($url, $licenseKeys);
         }
     }
 
