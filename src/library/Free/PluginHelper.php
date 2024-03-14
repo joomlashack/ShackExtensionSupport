@@ -2,8 +2,8 @@
 /**
  * @package   ShackExtensionSupport
  * @contact   www.joomlashack.com, help@joomlashack.com
- * @copyright 2016-2023 Joomlashack.com. All rights reserved
- * @license   http://www.gnu.org/licenses/gpl.html GNU/GPL
+ * @copyright 2016-2024 Joomlashack.com. All rights reserved
+ * @license   https://www.gnu.org/licenses/gpl.html GNU/GPL
  *
  * This file is part of ShackExtensionSupport.
  *
@@ -18,7 +18,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with ShackExtensionSupport.  If not, see <http://www.gnu.org/licenses/>.
+ * along with ShackExtensionSupport.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 namespace Alledia\OSMyLicensesManager\Free;
