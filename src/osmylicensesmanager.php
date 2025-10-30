@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @package   ShackExtensionSupport
  * @contact   www.joomlashack.com, help@joomlashack.com
@@ -92,6 +93,7 @@ class PlgSystemOSMyLicensesManager extends PluginBase
 
     /**
      * @return void
+     * @throws Throwable
      */
     public function onAfterRender(): void
     {
@@ -130,6 +132,7 @@ class PlgSystemOSMyLicensesManager extends PluginBase
      * @param ?string $element
      *
      * @return void
+     * @throws Throwable
      */
     protected function addCustomFooterToCategories(?string $element): void
     {
