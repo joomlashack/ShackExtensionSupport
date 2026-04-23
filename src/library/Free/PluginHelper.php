@@ -38,7 +38,7 @@ abstract class PluginHelper
     /**
      * @var string
      */
-    protected static $downloadBaseURL = 'https://deploy.ostraining.com/client/download/';
+    protected static string $downloadBaseURL = 'https://deploy.ostraining.com/client/download/';
 
     /**
      * Update the license key on the plugin params

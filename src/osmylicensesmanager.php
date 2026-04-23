@@ -55,9 +55,9 @@ class PlgSystemOSMyLicensesManager extends PluginBase
     protected $namespace = 'OSMyLicensesManager';
 
     /**
-     * @var bool
+     * @var ?bool
      */
-    protected $enabled = null;
+    protected ?bool $enabled = null;
 
     /**
      * @return void
